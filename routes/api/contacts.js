@@ -1,26 +1,43 @@
 const express = require('express')
-// const { listContacts } = require('../../model')
+const { listContacts, addContact } = require('../../model/contacts')
 const router = express.Router()
-const { listContacts } = require('../../model/index')
 
 // add my)
-router.use((req, res, next) => {
+router.use((_req, _res, next) => {
   console.log('Time: ', Date.now())
   next()
 })
 
-router.get('/', async (req, res, next) => {
+// router.get('/', async (req, res, next) => {
+//   try {
+//     const contacts = await listContacts()
+//     console.table(contacts)
+//     res.status(200).json({
+//       status: 'success',
+//       code: 200,
+//       data: contacts,
+//     })
+//   } catch (error) {
+//     next(error)
+//   }
+// })
+
+router.get('/', async (_req, res, next) => {
   try {
-    const response = await listContacts()
-    // res.json(JSON.parse(response.body))
-    console.log(response.json())
-    // res.json({ message: 'template message!!' })
+    const contacts = await listContacts()
+    console.table(contacts)
+    res.status(200).json({
+      status: 'succes',
+      code: 200,
+      message: 'contact fotnd',
+      // data: {
+      //   contacts,
+      // },
+      data: contacts,
+    })
   } catch (error) {
     next(error)
   }
-  // res.send(listContacts())
-  // listContacts()
-  // res.send(listContacts().toString())
 })
 
 router.get('/:contactId', async (req, res, next) => {
@@ -28,7 +45,21 @@ router.get('/:contactId', async (req, res, next) => {
 })
 
 router.post('/', async (req, res, next) => {
-  res.json({ message: 'template message' })
+  try {
+    const { body } = req
+    const contact = await addContact(body)
+    res.status(201).json({
+      status: 'succes',
+      code: 201,
+      message: 'contact add',
+      // data: {
+      //   contact,
+      // },
+      data: contact,
+    })
+  } catch (error) {
+    next(error)
+  }
 })
 
 router.delete('/:contactId', async (req, res, next) => {
