@@ -1,5 +1,5 @@
 const express = require('express')
-const { listContacts, addContact } = require('../../model/contacts')
+const { listContacts, addContact, getContactById } = require('../../model/contacts')
 const router = express.Router()
 
 // add my)
@@ -8,40 +8,45 @@ router.use((_req, _res, next) => {
   next()
 })
 
-// router.get('/', async (req, res, next) => {
-//   try {
-//     const contacts = await listContacts()
-//     console.table(contacts)
-//     res.status(200).json({
-//       status: 'success',
-//       code: 200,
-//       data: contacts,
-//     })
-//   } catch (error) {
-//     next(error)
-//   }
-// })
-
 router.get('/', async (_req, res, next) => {
   try {
     const contacts = await listContacts()
-    console.table(contacts)
+    console.log(contacts)
     res.status(200).json({
       status: 'succes',
       code: 200,
-      message: 'contact fotnd',
-      // data: {
-      //   contacts,
-      // },
+      message: 'contact found',
       data: contacts,
     })
   } catch (error) {
+    console.log('error GET listContacts')
     next(error)
   }
 })
 
 router.get('/:contactId', async (req, res, next) => {
-  res.json({ message: 'template message' })
+  try {
+    const contact = await getContactById(req.params.contactId)
+    // console.log(req)
+    if (contact) {
+      return res.json({
+        status: 'Success',
+        code: 200,
+        message: 'contact found',
+        data: {
+          contact,
+        },
+      })
+    } else {
+      return res.status(404).json({
+        status: 'Error',
+        code: 404,
+        message: 'Not found',
+      })
+    }
+  } catch (error) {
+    next(error)
+  }
 })
 
 router.post('/', async (req, res, next) => {
@@ -52,9 +57,6 @@ router.post('/', async (req, res, next) => {
       status: 'succes',
       code: 201,
       message: 'contact add',
-      // data: {
-      //   contact,
-      // },
       data: contact,
     })
   } catch (error) {
