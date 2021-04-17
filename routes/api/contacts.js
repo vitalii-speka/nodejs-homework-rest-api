@@ -2,7 +2,6 @@ const express = require('express')
 const { listContacts, addContact, getContactById } = require('../../model/contacts')
 const router = express.Router()
 
-// add my)
 router.use((_req, _res, next) => {
   console.log('Time: ', Date.now())
   next()
@@ -27,7 +26,6 @@ router.get('/', async (_req, res, next) => {
 router.get('/:contactId', async (req, res, next) => {
   try {
     const contact = await getContactById(req.params.contactId)
-    // console.log(req)
     if (contact) {
       return res.json({
         status: 'Success',
@@ -54,9 +52,9 @@ router.post('/', async (req, res, next) => {
     const { body } = req
     const contact = await addContact(body)
     res.status(201).json({
-      status: 'succes',
+      status: 'Succes',
       code: 201,
-      message: 'contact add',
+      message: 'Contact Add',
       data: contact,
     })
   } catch (error) {
