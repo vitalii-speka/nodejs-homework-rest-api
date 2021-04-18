@@ -1,6 +1,5 @@
 const fs = require('fs/promises')
 const path = require('path')
-// const contacts = require('./contacts.json')
 const shortid = require('shortid')
 
 const contactsPath = path.join(__dirname, 'contacts.json')
@@ -19,7 +18,7 @@ const getContactById = async contactId => {
 const removeContact = async contactId => {
   const contacts = await listContacts()
   const contact = contacts.find(({ id }) => id.toString() === contactId)
-  console.log(contact)
+
   if (!contact) return
 
   const newContacts = contacts.filter(({ id }) => id.toString() !== contactId)
@@ -42,7 +41,6 @@ const addContact = async body => {
 
 const updateContact = async (contactId, body) => {
   const contacts = await listContacts()
-  console.log('1 body', body)
 
   const updateContacts = contacts.map(contact => {
     if (contact.id === contactId) {
