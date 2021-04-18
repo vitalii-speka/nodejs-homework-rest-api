@@ -17,24 +17,16 @@ const getContactById = async contactId => {
 }
 
 const removeContact = async contactId => {
-  await fs.readFile(contactsPath, (err, data) => {
-    if (err) {
-      console.log(err.message)
-    }
-    const contactsAll = JSON.parse(data.toString())
-    const contact = JSON.stringify(
-      contactsAll.filter(({ id }) => id !== contactId),
-      null,
-      '\t',
-    )
-    console.log(`ContactId - ${contactId} remove`)
+  const contacts = await listContacts()
+  const contact = contacts.find(({ id }) => id.toString() === contactId)
+  console.log(contact)
+  if (!contact) return
 
-    fs.writeFile(contactsPath, contact, err => {
-      if (err) {
-        console.log(err)
-      }
-    })
-  })
+  const newContacts = contacts.filter(({ id }) => id.toString() !== contactId)
+
+  await fs.writeFile(contactsPath, JSON.stringify(newContacts, null, 2), 'utf-8')
+
+  return contact
 }
 
 const addContact = async body => {
@@ -48,7 +40,23 @@ const addContact = async body => {
   return newContact
 }
 
-const updateContact = async (contactId, body) => {}
+const updateContact = async (contactId, body) => {
+  const contacts = await listContacts()
+  console.log('1 body', body)
+
+  const updateContacts = contacts.map(contact => {
+    if (contact.id === contactId) {
+      return { ...contact, ...body }
+    }
+    return contact
+  })
+  const newContact = updateContacts.find(({ id }) => id === contactId)
+  if (newContact) {
+    await fs.writeFile(contactsPath, JSON.stringify(updateContacts, null, '\t'))
+    return newContact
+  }
+  return null
+}
 
 module.exports = {
   listContacts,
