@@ -12,6 +12,7 @@ async function start() {
     await mongoose.connect('mongodb+srv://vitaliiSpeka:vitall1987@clustershw.e3xi6.mongodb.net/contacts', {
       useNewUrlParser: true,
       useFindAndModify: false,
+      useUnifiedTopology: true,
     })
     app.listen(PORT, () => {
       console.log(`Server running. Use our API on port: ${PORT}`)
