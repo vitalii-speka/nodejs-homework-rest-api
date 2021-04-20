@@ -1,7 +1,11 @@
 const express = require('express')
-const { listContacts, addContact, getContactById, updateContact, removeContact } = require('../../model/contacts')
 const router = express.Router()
+const { MongoClient, ObjectID } = require('mongodb')
+const { addContact, updateContact, removeContact } = require('../../model/contacts')
 const { validationAddContact, validationUpdateContact } = require('./contacts-validation')
+require('dotenv').config()
+
+const uriDb = process.env.DB_HOST
 
 router.use((_req, _res, next) => {
   console.log('Time: ', Date.now())
@@ -9,8 +13,11 @@ router.use((_req, _res, next) => {
 })
 
 router.get('/', async (req, res, next) => {
+  const client = await new MongoClient(uriDb, {
+    useUnifiedTopology: true,
+  }).connect()
   try {
-    const contacts = await listContacts()
+    const contacts = await client.db().collection('contacts').find().toArray()
     res.status(200).json({
       status: 'succes',
       code: 200,
@@ -20,10 +27,14 @@ router.get('/', async (req, res, next) => {
       },
     })
   } catch (error) {
+    console.error(error)
     next(error)
+  } finally {
+    await client.close()
   }
 })
 
+/*
 router.get('/:contactId', async (req, res, next) => {
   try {
     const contact = await getContactById(req.params.contactId)
@@ -45,6 +56,30 @@ router.get('/:contactId', async (req, res, next) => {
     }
   } catch (error) {
     next(error)
+  }
+})
+*/
+
+router.get('/:contactId', async (req, res, next) => {
+  const { contactId } = req.params
+  const client = await new MongoClient(uriDb, {
+    useUnifiedTopology: true,
+  }).connect()
+  try {
+    const objectId = new ObjectID(contactId)
+    const [result] = await client.db().collection('contacts').find({ _id: objectId }).toArray()
+    res.json({
+      status: 'Success',
+      code: 200,
+      message: 'contact found',
+      data: {
+        contact: result,
+      },
+    })
+  } catch (error) {
+    next(error)
+  } finally {
+    await client.close()
   }
 })
 
