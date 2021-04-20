@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { MongoClient, ObjectID } = require('mongodb')
-const { updateContact } = require('../../model/contacts')
+// const { updateContact } = require('../../model/contacts')
 const { validationAddContact, validationUpdateContact } = require('./contacts-validation')
 require('dotenv').config()
 
@@ -118,35 +118,52 @@ router.delete('/:id', async (req, res, next) => {
       })
     }
   } catch (error) {
+    console.error(error)
     next(error)
+  } finally {
+    await client.close()
   }
 })
 
-/*
-router.delete('/:contactId', async (req, res, next) => {
+router.patch('/:id/status', validationUpdateContact, async (req, res, next) => {
+  const { id } = req.params
+  const { favorite = false } = req.body
+  const client = await new MongoClient(uriDb, {
+    useUnifiedTopology: true,
+  }).connect()
+
   try {
-    const contact = await removeContact(req.params.contactId)
-    if (contact) {
+    const objectId = new ObjectID(id)
+    const { value: result } = await client
+      .db()
+      .collection('contacts')
+      .findOneAndUpdate({ _id: objectId }, { $set: { favorite } }, { returnOriginal: false })
+
+    if (result) {
       return res.json({
         status: 'Success',
         code: 200,
-        message: 'contact deleted',
+        message: 'contact update',
         data: {
-          contact,
+          contact: result,
         },
       })
     } else {
       return res.status(404).json({
         status: 'Error',
-        code: 404,
-        message: 'Not found',
+        code: 400,
+        message: 'missing field favorite',
       })
     }
   } catch (error) {
+    console.error(error)
     next(error)
+  } finally {
+    await client.close()
   }
 })
-*/
+
+/*
 router.patch('/:contactId', validationUpdateContact, async (req, res, next) => {
   try {
     const {
@@ -175,5 +192,6 @@ router.patch('/:contactId', validationUpdateContact, async (req, res, next) => {
     next(error)
   }
 })
+*/
 
 module.exports = router
