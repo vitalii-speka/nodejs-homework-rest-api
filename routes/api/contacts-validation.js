@@ -8,13 +8,9 @@ const schemaAddContact = Joi.object({
     .required(),
 })
 
-// const schemaUpdateContact = Joi.object({
-//   name: Joi.string().min(3).max(30).optional(),
-//   email: Joi.string().email().optional(),
-//   phone: Joi.string()
-//     .pattern(/^[(][\d]{3}[)]\s[\d]{3}[-][\d]{4}/)
-//     .optional(),
-// }).or('name', 'email', 'phone')
+const schemaUpdateStatusContact = Joi.object({
+  favorite: Joi.boolean().required(),
+})
 
 const schemaUpdateContact = Joi.object({
   name: Joi.string().min(3).max(30).optional(),
@@ -40,11 +36,11 @@ const validate = (schema, obj, next) => {
 const validationAddContact = (req, _res, next) => {
   return validate(schemaAddContact, req.body, next)
 }
-// const validationUpdateContact = (req, _res, next) => {
-//   return validate(schemaUpdateContact, req.body, next)
-// }
+const validationUpdateStatusContact = (req, _res, next) => {
+  return validate(schemaUpdateStatusContact, req.body, next)
+}
 const validationUpdateContact = (req, _res, next) => {
   return validate(schemaUpdateContact, req.body, next)
 }
 
-module.exports = { validationAddContact, validationUpdateContact }
+module.exports = { validationAddContact, validationUpdateStatusContact, validationUpdateContact }
