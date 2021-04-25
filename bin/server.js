@@ -1,5 +1,3 @@
-// const mongoose = require('mongoose')
-
 const app = require('../app')
 const db = require('../model/db')
 

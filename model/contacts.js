@@ -1,59 +1,32 @@
-const db = require('./db')
-const { ObjectID } = require('mongodb')
-
-const getCollection = async (db, name) => {
-  const client = await db
-  const collection = await client.db().collection(name)
-  return collection
-}
+const Contact = require('./schemas/contacts')
 
 const getAll = async () => {
-  const collection = await getCollection(db, 'contacts')
-  const result = await collection.find().toArray()
+  const result = await Contact.find({})
   return result
 }
 
 const getContactById = async contactId => {
-  const collection = await getCollection(db, 'contacts')
-  const objectId = new ObjectID(contactId)
-  const [result] = await collection.find({ _id: objectId }).toArray()
+  const result = await Contact.findOne({ _id: contactId })
   return result
 }
 
 const removeContact = async contactId => {
-  const collection = await getCollection(db, 'contacts')
-  const objectId = new ObjectID(contactId)
-  const { value: result } = await collection.findOneAndDelete({ _id: objectId })
+  const result = await Contact.findByIdAndRemove({ _id: contactId })
   return result
 }
 
 const addContact = async body => {
-  const collection = await getCollection(db, 'contacts')
-  const {
-    ops: [result],
-  } = await collection.insertOne({ ...body, favorite: false })
+  const result = await Contact.create(body)
   return result
 }
 
 const updateContact = async (contactId, body) => {
-  const collection = await getCollection(db, 'contacts')
-  const objectId = new ObjectID(contactId)
-  const { value: result } = await collection.findOneAndUpdate(
-    { _id: objectId },
-    { $set: body },
-    { returnOriginal: false },
-  )
+  const result = await Contact.findByIdAndUpdate({ _id: contactId }, { ...body }, { new: true })
   return result
 }
 
 const updateStatusContact = async (contactId, body) => {
-  const collection = await getCollection(db, 'contacts')
-  const objectId = new ObjectID(contactId)
-  const { value: result } = await collection.findOneAndUpdate(
-    { _id: objectId },
-    { $set: body },
-    { returnOriginal: false },
-  )
+  const result = await Contact.findByIdAndUpdate({ _id: contactId }, { ...body }, { new: true })
   return result
 }
 
