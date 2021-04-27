@@ -1,65 +1,40 @@
-const fs = require('fs/promises')
-const path = require('path')
-const shortid = require('shortid')
+const Contact = require('./schemas/contacts')
 
-const contactsPath = path.join(__dirname, 'contacts.json')
-
-const listContacts = async () => {
-  const data = await fs.readFile(contactsPath)
-  return JSON.parse(data.toString())
+const getAll = async () => {
+  const result = await Contact.find({})
+  return result
 }
 
 const getContactById = async contactId => {
-  const contacts = await listContacts()
-  const contact = contacts.find(({ id }) => id.toString() === contactId)
-  return contact
+  const result = await Contact.findOne({ _id: contactId })
+  return result
 }
 
 const removeContact = async contactId => {
-  const contacts = await listContacts()
-  const contact = contacts.find(({ id }) => id.toString() === contactId)
-
-  if (!contact) return
-
-  const newContacts = contacts.filter(({ id }) => id.toString() !== contactId)
-
-  await fs.writeFile(contactsPath, JSON.stringify(newContacts, null, 2), 'utf-8')
-
-  return contact
+  const result = await Contact.findByIdAndRemove({ _id: contactId })
+  return result
 }
 
 const addContact = async body => {
-  const data = await fs.readFile(contactsPath)
-  const contacts = JSON.parse(data.toString())
-
-  const newContact = { id: shortid.generate(), ...body }
-  contacts.push(newContact)
-
-  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, '\t'))
-  return newContact
+  const result = await Contact.create(body)
+  return result
 }
 
 const updateContact = async (contactId, body) => {
-  const contacts = await listContacts()
+  const result = await Contact.findByIdAndUpdate({ _id: contactId }, { ...body }, { new: true })
+  return result
+}
 
-  const updateContacts = contacts.map(contact => {
-    if (contact.id === contactId) {
-      return { ...contact, ...body }
-    }
-    return contact
-  })
-  const newContact = updateContacts.find(({ id }) => id === contactId)
-  if (newContact) {
-    await fs.writeFile(contactsPath, JSON.stringify(updateContacts, null, '\t'))
-    return newContact
-  }
-  return null
+const updateStatusContact = async (contactId, body) => {
+  const result = await Contact.findByIdAndUpdate({ _id: contactId }, { ...body }, { new: true })
+  return result
 }
 
 module.exports = {
-  listContacts,
+  getAll,
   getContactById,
   removeContact,
   addContact,
   updateContact,
+  updateStatusContact,
 }
