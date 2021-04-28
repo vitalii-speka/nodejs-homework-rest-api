@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const { Schema, model } = mongoose
+const { Schema, model, SchemaType } = mongoose
 
 const contactSchema = new Schema(
   {
@@ -21,6 +21,10 @@ const contactSchema = new Schema(
     favorite: {
       type: Boolean,
       default: false,
+    },
+    owner: {
+      type: SchemaType.ObjectId,
+      ref: 'user',
     },
   },
   { versionKey: false, timestamps: true },
