@@ -1,10 +1,11 @@
 const express = require('express')
 const router = express.Router()
 
-const uderController = require('../../controllers/users')
+const userController = require('../../controllers/users')
+const guard = require('../../helper/guard')
 
-router.post('/register', uderController.regist)
-router.post('/login', uderController.login)
-router.post('/logout', uderController.logout)
+router.post('/register', userController.regist)
+router.post('/login', userController.login)
+router.post('/logout', guard, userController.logout)
 
 module.exports = router

@@ -1,4 +1,4 @@
-const User = require('./schemas/users')
+const User = require('./schemas/user')
 
 const findById = async id => {
   return await User.findOne({ _id: id })
@@ -11,8 +11,13 @@ const crateUser = async userOptions => {
   return await user.save()
 }
 
+const updatetoken = async (id, token) => {
+  return await User.updateOne({ _id: id }, { token })
+}
+
 module.exports = {
   findById,
   findByEmail,
   crateUser,
+  updatetoken,
 }

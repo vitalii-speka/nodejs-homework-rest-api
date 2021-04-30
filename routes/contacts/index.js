@@ -7,13 +7,14 @@ const {
   validationUpdateContact,
 } = require('./contacts-validation')
 const contactsController = require('../../controllers/contacts')
+const guard = require('../../helper/guard')
 
 router.get('/', contactsController.get).post('/', validationAddContact, contactsController.create)
 
 router
-  .get('/:contactId', contactsController.getById)
-  .delete('/:contactId', contactsController.remove)
-  .patch('/:contactId/favorite', validationUpdateStatusContact, contactsController.updateStatus)
-  .put('/:contactId', validationUpdateContact, contactsController.update)
+  .get('/:contactId', guard, contactsController.getById)
+  .delete('/:contactId', guard, contactsController.remove)
+  .patch('/:contactId/favorite', guard, validationUpdateStatusContact, contactsController.updateStatus)
+  .put('/:contactId', guard, validationUpdateContact, contactsController.update)
 
 module.exports = router

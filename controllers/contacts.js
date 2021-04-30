@@ -12,7 +12,7 @@ const get = async (req, res, next) => {
   try {
     const contacts = await getAll()
     res.status(HttpCode.OK).json({
-      status: 'succes',
+      status: 'succes get',
       code: HttpCode.OK,
       message: 'contact found',
       data: {
@@ -39,9 +39,9 @@ const getById = async (req, res, next) => {
       })
     } else {
       return res.status(HttpCode.NOT_FOUND).json({
-        status: 'Error',
+        status: 'error getById',
         code: HttpCode.NOT_FOUND,
-        message: 'Not found',
+        message: 'Not found getBuId',
       })
     }
   } catch (error) {
@@ -54,7 +54,7 @@ const create = async (req, res, next) => {
     const { body } = req
     const contact = await addContact(body)
     res.status(HttpCode.CREATED).json({
-      status: 'Succes',
+      status: 'Succes create',
       code: HttpCode.CREATED,
       message: 'Contact add',
       data: contact,
@@ -69,7 +69,7 @@ const remove = async (req, res, next) => {
     const contact = await removeContact(req.params.contactId)
     if (contact) {
       return res.json({
-        status: 'Success',
+        status: 'Success remove',
         code: HttpCode.OK,
         message: 'contact deleted',
         data: {
@@ -78,7 +78,7 @@ const remove = async (req, res, next) => {
       })
     } else {
       return res.status(HttpCode.NOT_FOUND).json({
-        status: 'Error',
+        status: 'Error remove',
         code: HttpCode.NOT_FOUND,
         message: 'Not found',
       })

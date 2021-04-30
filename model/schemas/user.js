@@ -6,6 +6,11 @@ const SALT_FACTOR = 6
 
 const userSchema = new Schema(
   {
+    name: {
+      type: String,
+      minlength: 2,
+      default: 'Guest',
+    },
     password: {
       type: String,
       required: [true, 'Password is required'],

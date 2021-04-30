@@ -1,24 +1,24 @@
 const Users = require('../model/users')
 const { HttpCode } = require('../helper/constants')
 const jwt = require('jsonwebtoken')
-const User = require('../model/schemas/users')
 require('dotenv').config()
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
+const { findByEmail, crateUser, updatetoken } = require('../model/users')
 
 const regist = async (req, res, next) => {
   const { email } = req.body
-  const user = await Users.findByEmail(email)
+  const user = await findByEmail(email)
   if (user) {
     return res.status(HttpCode.CONFLICT).json({
-      status: 'error',
+      status: 'error register',
       code: HttpCode.CONFLICT,
       message: 'Email is alredy use',
     })
   }
   try {
-    const newUser = await User.create(req.body)
+    const newUser = await crateUser(req.body)
     return res.status(HttpCode.CREATED).json({
-      status: 'success',
+      status: 'success register',
       code: HttpCode.CREATED,
       data: {
         id: newUser.id,
@@ -32,21 +32,22 @@ const regist = async (req, res, next) => {
 }
 
 const login = async (req, res, next) => {
+  console.log('run login')
   const { email, password } = req.body
-  const user = await Users.findByEmail(email)
+  const user = await findByEmail(email)
   const isValidPassword = await user?.validPassword(password)
   if (!user || !isValidPassword) {
     return res.status(HttpCode.UNAUTHORIZED).json({
-      status: 'error',
+      status: 'error login',
       code: HttpCode.UNAUTHORIZED,
       message: 'Invalid credentials',
     })
   }
   const payload = { id: user.id }
-  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '2h' })
-  await Users.updateToken(user.id, token)
+  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '5h' })
+  await updatetoken(user.id, token)
   return res.status(HttpCode.OK).json({
-    status: 'success',
+    status: 'success login',
     code: HttpCode.OK,
     data: { token },
   })
@@ -54,7 +55,7 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   const id = req.user.id
-  await Users.updateToken(id, null)
+  await Users.updatetoken(id, null)
   return res.status(HttpCode.NO_CONTENT).json({})
 }
 

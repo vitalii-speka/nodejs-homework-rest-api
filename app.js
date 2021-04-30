@@ -5,6 +5,7 @@ const cors = require('cors')
 
 const contactsRouter = require('./routes/contacts')
 const userRouter = require('./routes/users')
+const { HttpCode } = require('./helper/constants')
 
 const app = express()
 
@@ -18,11 +19,11 @@ app.use('/api/contacts', contactsRouter)
 app.use('/api/users', userRouter)
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not found' })
+  res.status(HttpCode.NOT_FOUND).json({ message: 'Not found' })
 })
 
 app.use((err, req, res, next) => {
-  res.status(500).json({ message: err.message })
+  res.status(HttpCode.SERVER_ERROR).json({ message: err.message })
 })
 
 module.exports = app
