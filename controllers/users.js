@@ -32,7 +32,6 @@ const regist = async (req, res, next) => {
 }
 
 const login = async (req, res, next) => {
-  console.log('run login')
   const { email, password } = req.body
   const user = await findByEmail(email)
   const isValidPassword = await user?.validPassword(password)
