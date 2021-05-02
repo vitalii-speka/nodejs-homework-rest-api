@@ -29,7 +29,10 @@ const getById = async (req, res, next) => {
   try {
     const { contactId } = req.params
     const userId = req.user?.id
+    console.log(contactId)
+    console.log(userId)
     const contact = await getContactById(userId, contactId)
+    console.log(contact)
     if (contact) {
       return res.json({
         status: 'Success',
@@ -52,9 +55,11 @@ const getById = async (req, res, next) => {
 }
 
 const create = async (req, res, next) => {
+  const userId = req.user?.id
+  const { body } = req
+  console.log('create', userId)
+  console.log('create', body)
   try {
-    const userId = req.user?.id
-    const { body } = req
     const contact = await addContact(userId, body)
     res.status(HttpCode.CREATED).json({
       status: 'Succes create',

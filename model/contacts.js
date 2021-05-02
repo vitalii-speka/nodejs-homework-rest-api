@@ -23,9 +23,11 @@ const getAll = async (userId, query) => {
 }
 
 const getContactById = async (userId, contactId) => {
+  console.log('contactId', contactId)
+  console.log('userId', userId)
   const result = await Contact.findOne({ _id: contactId, owner: userId }).populate({
     path: 'owner',
-    select: 'name email subscription _id',
+    select: 'email subscription -_id',
   })
   return result
 }
@@ -36,6 +38,8 @@ const removeContact = async (userId, contactId) => {
 }
 
 const addContact = async (userId, body) => {
+  console.log('addContact', userId)
+  console.log('addContact', body)
   const result = await Contact.create({ ...body, owner: userId })
   return result
 }
