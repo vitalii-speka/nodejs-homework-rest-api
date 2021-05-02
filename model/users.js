@@ -11,7 +11,7 @@ const crateUser = async userOptions => {
   return await user.save()
 }
 
-const updatetoken = async (id, token) => {
+const updateToken = async (id, token) => {
   return await User.updateOne({ _id: id }, { token })
 }
 
@@ -19,5 +19,5 @@ module.exports = {
   findById,
   findByEmail,
   crateUser,
-  updatetoken,
+  updateToken,
 }

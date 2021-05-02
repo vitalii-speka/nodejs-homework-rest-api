@@ -1,9 +1,8 @@
-const Users = require('../model/users')
 const { HttpCode } = require('../helper/constants')
 const jwt = require('jsonwebtoken')
 require('dotenv').config()
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
-const { findByEmail, crateUser, updatetoken } = require('../model/users')
+const { findByEmail, crateUser, updateToken } = require('../model/users')
 
 const regist = async (req, res, next) => {
   const { email } = req.body
@@ -44,7 +43,7 @@ const login = async (req, res, next) => {
   }
   const payload = { id: user.id }
   const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '5h' })
-  await updatetoken(user.id, token)
+  await updateToken(user.id, token)
   return res.status(HttpCode.OK).json({
     status: 'success login',
     code: HttpCode.OK,
@@ -54,7 +53,7 @@ const login = async (req, res, next) => {
 
 const logout = async (req, res, next) => {
   const id = req.user.id
-  await Users.updatetoken(id, null)
+  await updateToken(id, null)
   return res.status(HttpCode.NO_CONTENT).json({})
 }
 

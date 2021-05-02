@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const {
+  validationQueryContact,
   validationAddContact,
   validationUpdateStatusContact,
   validationUpdateContact,
@@ -9,7 +10,9 @@ const {
 const contactsController = require('../../controllers/contacts')
 const guard = require('../../helper/guard')
 
-router.get('/', contactsController.get).post('/', validationAddContact, contactsController.create)
+router
+  .get('/', guard, validationQueryContact, contactsController.get)
+  .post('/', guard, validationAddContact, contactsController.create)
 
 router
   .get('/:contactId', guard, contactsController.getById)

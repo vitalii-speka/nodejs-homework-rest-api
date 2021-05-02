@@ -26,7 +26,10 @@ const userSchema = new Schema(
     },
     subscription: {
       type: String,
-      enum: [Subscription.STARTER, Subscription.PRO, Subscription.BUSINESS],
+      enum: {
+        values: [Subscription.STARTER, Subscription.PRO, Subscription.BUSINESS],
+        message: 'It is not allowed',
+      },
       default: Subscription.STARTER,
     },
     token: {
