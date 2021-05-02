@@ -54,7 +54,9 @@ const login = async (req, res, next) => {
 const logout = async (req, res, next) => {
   const id = req.user.id
   await updateToken(id, null)
-  return res.status(HttpCode.NO_CONTENT).json({})
+  return res.status(HttpCode.NO_CONTENT).json({
+    message: 'loguot',
+  })
 }
 
 module.exports = {
