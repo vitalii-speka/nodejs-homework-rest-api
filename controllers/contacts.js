@@ -55,12 +55,14 @@ const getById = async (req, res, next) => {
 }
 
 const create = async (req, res, next) => {
-  const userId = req.user?.id
-  const { body } = req
-  console.log('create', userId)
-  console.log('create', body)
   try {
-    const contact = await addContact(userId, body)
+    console.log('run create contacts********************')
+    const userId = req.user?.id
+    const { body } = req
+    console.log('create userId', userId)
+    // console.log('create req', req)
+    console.log('create body', body)
+    const contact = await addContact({ ...body, owner: userId })
     res.status(HttpCode.CREATED).json({
       status: 'Succes create',
       code: HttpCode.CREATED,

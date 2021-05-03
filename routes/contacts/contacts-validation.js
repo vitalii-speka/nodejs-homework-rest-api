@@ -8,7 +8,7 @@ const schemaAddContact = Joi.object({
     .pattern(/[A-Z]\w+/)
     .required(),
   email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net'] } })
+    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'org', 'ua'] } })
     .optional(),
   phone: Joi.string().min(10).max(14).required(),
   favorite: Joi.boolean().optional(),
@@ -42,7 +42,7 @@ const validate = (schema, obj, next) => {
   if (error) {
     return next({
       status: 400,
-      message: 'Bad request',
+      message: 'Bad request validate',
     })
   }
   next()

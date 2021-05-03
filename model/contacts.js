@@ -37,10 +37,10 @@ const removeContact = async (userId, contactId) => {
   return result
 }
 
-const addContact = async (userId, body) => {
-  console.log('addContact', userId)
-  console.log('addContact', body)
-  const result = await Contact.create({ ...body, owner: userId })
+const addContact = async body => {
+  // console.log('addContact userId', userId)
+  console.log('addContact body', body)
+  const result = await Contact.create(body)
   return result
 }
 

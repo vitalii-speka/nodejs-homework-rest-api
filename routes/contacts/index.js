@@ -12,7 +12,7 @@ const guard = require('../../helper/guard')
 
 router
   .get('/', guard, validationQueryContact, contactsController.get)
-  .post('/', validationAddContact, contactsController.create)
+  .post('/', guard, validationAddContact, contactsController.create)
 
 router
   .get('/:contactId', guard, contactsController.getById)
