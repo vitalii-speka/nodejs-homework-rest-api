@@ -47,16 +47,20 @@ const login = async (req, res, next) => {
   return res.status(HttpCode.OK).json({
     status: 'success login',
     code: HttpCode.OK,
-    data: { token },
+    data: {
+      token: token,
+      user: {
+        email: user.email,
+        subscription: user.subscription,
+      },
+    },
   })
 }
 
 const logout = async (req, res, next) => {
   const id = req.user.id
   await updateToken(id, null)
-  return res.status(HttpCode.NO_CONTENT).json({
-    message: 'loguot',
-  })
+  return res.status(HttpCode.NO_CONTENT).json({})
 }
 
 module.exports = {
