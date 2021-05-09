@@ -34,7 +34,8 @@ const schemaUpdateContact = Joi.object({
     .pattern(/^[(][\d]{3}[)]\s[\d]{3}[-][\d]{4}/)
     .optional(),
   favorite: Joi.boolean(),
-}).or('name', 'email', 'phone', 'favorite')
+  subscription: Joi.string(),
+}).or('name', 'email', 'phone', 'favorite', 'subscription')
 
 const validate = (schema, obj, next) => {
   const { error } = schema.validate(obj)
