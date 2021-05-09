@@ -63,8 +63,11 @@ const logout = async (req, res, next) => {
   return res.status(HttpCode.NO_CONTENT).json({})
 }
 
+const updateAvatar = async (req, res, next) => {}
+
 module.exports = {
   regist,
   login,
   logout,
+  updateAvatar,
 }
