@@ -69,14 +69,12 @@ const logout = async (req, res, next) => {
 }
 
 const updateAvatar = async (req, res, next) => {
-  console.log('updateAvatar controlls')
   const { id } = req.user
   const avatarURL = await saveAvatarUser(req)
   await updateAvatarUser(id, avatarURL)
   return res.status(HttpCode.OK).json({ status: 'success', code: HttpCode.OK, data: { avatarURL } })
 }
 const saveAvatarUser = async (req, res, next) => {
-  // const { id } = req.user
   const FOLDER_AVATARS = process.env.FOLDER_AVATARS
   // req.file
   const pathFile = req.file.path
@@ -86,8 +84,19 @@ const saveAvatarUser = async (req, res, next) => {
     .autocrop()
     .cover(250, 250, jimp.HORIZONTAL_ALIGN_CENTER | jimp.VERTICAL_ALIGN_MIDDLE)
     .writeAsync(pathFile)
-  await fs.rename(pathFile, path.join(process.cwd(), 'public', FOLDER_AVATARS, newNameAvatar))
-  return path.join(FOLDER_AVATARS, newNameAvatar)
+
+  try {
+    await fs.rename(pathFile, path.join(process.cwd(), 'public', FOLDER_AVATARS, newNameAvatar))
+  } catch (e) {
+    console.log(e.message)
+  }
+
+  // not runing to Heroku
+  const oldAvatar = req.user.avatar
+  if (oldAvatar.includes(`${FOLDER_AVATARS}/`)) {
+    await fs.unlink(path.join(process.cwd(), 'public', oldAvatar))
+  }
+  return path.join(FOLDER_AVATARS, newNameAvatar).replace('\\', '/')
 }
 
 module.exports = {

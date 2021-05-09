@@ -18,8 +18,6 @@ const upload = multer({
   storage: storage,
   limits: { fileSize: 2000000 },
   fileFilter: (req, file, cb) => {
-    // console.log('upload helper')
-    console.log('file.mimetype.includes', file.mimetype.includes('image'))
     if (file.mimetype.includes('image')) {
       // To accept the file pass `true`, like so:
       cb(null, true)
