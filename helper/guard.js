@@ -12,7 +12,7 @@ const guard = (req, res, next) => {
       return res.status(HttpCode.UNAUTHORIZED).json({
         status: 'error guard',
         code: HttpCode.UNAUTHORIZED,
-        message: 'Unauthorized',
+        message: 'Not authorized',
       })
     }
     req.user = user // true === req.locals.user = user

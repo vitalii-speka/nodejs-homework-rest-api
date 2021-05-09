@@ -15,7 +15,7 @@ const updateToken = async (id, token) => {
   return await User.updateOne({ _id: id }, { token })
 }
 
-const updateAvatar = async (id, avatar, idCloudAvatar = null) => {
+const updateAvatarUser = async (id, avatar, idCloudAvatar = null) => {
   return await User.updateOne({ _id: id }, { avatar, idCloudAvatar })
 }
 
@@ -24,5 +24,5 @@ module.exports = {
   findByEmail,
   crateUser,
   updateToken,
-  updateAvatar,
+  updateAvatarUser,
 }
