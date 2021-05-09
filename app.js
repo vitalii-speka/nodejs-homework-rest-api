@@ -1,10 +1,10 @@
-require('dotenv').config()
 const express = require('express')
 const logger = require('morgan')
 const cors = require('cors')
 const helmet = require('helmet')
 const rateLimit = require('express-rate-limit')
 const boolParser = require('express-query-boolean')
+require('dotenv').config()
 
 const contactsRouter = require('./routes/contacts')
 const usersRouter = require('./routes/users')
@@ -16,7 +16,7 @@ const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 
 app.use(helmet())
 app.use(logger(formatsLogger))
-// app.use(express.static('public'))
+app.use(express.static('public'))
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 1 hour window
@@ -31,15 +31,15 @@ const limiter = rateLimit({
 })
 
 app.use(limiter)
-// app.use(
-//   cors({
-//     origin: '*',
-//     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-//     preflightContinue: false,
-//     optionsSuccessStatus: HttpCode.NO_CONTENT,
-//   }),
-// )
-app.use(cors())
+app.use(
+  cors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+    preflightContinue: false,
+    optionsSuccessStatus: HttpCode.NO_CONTENT,
+  }),
+)
+// app.use(cors())
 
 app.use(express.json({ limit: 100000 }))
 app.use(boolParser())
