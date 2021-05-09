@@ -9,10 +9,15 @@ const {
 } = require('./contacts-validation')
 const contactsController = require('../../controllers/contacts')
 const guard = require('../../helper/guard')
+const { Subscription } = require('../../helper/constants')
+const subscription = require('../../helper/subscription')
 
 router
   .get('/', guard, validationQueryContact, contactsController.get)
   .post('/', guard, validationAddContact, contactsController.create)
+
+router.get('/pro', guard, subscription(Subscription.PRO), contactsController.onlyPro)
+router.get('/business', guard, subscription(Subscription.BUSINESS), contactsController.onlyBusiness)
 
 router
   .get('/:contactId', guard, contactsController.getById)

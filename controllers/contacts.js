@@ -156,6 +156,25 @@ const updateStatus = async (req, res, next) => {
   }
 }
 
+const onlyPro = async (req, res, next) => {
+  res.status(HttpCode.OK).json({
+    status: 'succes',
+    code: HttpCode.OK,
+    data: {
+      message: 'Only Pro',
+    },
+  })
+}
+const onlyBusiness = async (req, res, next) => {
+  res.status(HttpCode.OK).json({
+    status: 'succes',
+    code: HttpCode.OK,
+    data: {
+      message: 'Only Business',
+    },
+  })
+}
+
 module.exports = {
   get,
   getById,
@@ -163,4 +182,6 @@ module.exports = {
   remove,
   update,
   updateStatus,
+  onlyPro,
+  onlyBusiness,
 }
