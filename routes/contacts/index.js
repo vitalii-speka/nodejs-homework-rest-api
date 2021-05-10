@@ -6,7 +6,7 @@ const {
   validationAddContact,
   validationUpdateStatusContact,
   validationUpdateContact,
-} = require('./contacts-validation')
+} = require('../../helper/validation')
 const contactsController = require('../../controllers/contacts')
 const guard = require('../../helper/guard')
 const { Subscription } = require('../../helper/constants')

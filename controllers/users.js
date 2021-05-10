@@ -115,7 +115,6 @@ const updateSub = async (req, res, next) => {
     const id = req.user.id
     await updateSubUser(id, req.body.subscription)
     const user = await findById(id)
-    console.log(user)
     return res.status(HttpCode.OK).json({
       status: 'success',
       code: HttpCode.OK,

@@ -1,5 +1,6 @@
 const Joi = require('joi')
 const mongoose = require('mongoose')
+const { HttpCode, Subscription } = require('./constants')
 
 const schemaAddContact = Joi.object({
   name: Joi.string()
@@ -37,13 +38,17 @@ const schemaUpdateContact = Joi.object({
   subscription: Joi.string(),
 }).or('name', 'email', 'phone', 'favorite', 'subscription')
 
+const schemaValidateUpdateSub = Joi.object({
+  subscription: Joi.any().valid(Subscription.STARTER, Subscription.PRO, Subscription.BUSINESS).required(),
+})
+
 const validate = (schema, obj, next) => {
   const { error } = schema.validate(obj)
 
   if (error) {
     return next({
-      status: 400,
-      message: 'Bad request validate',
+      status: HttpCode.BAD_REQUEST,
+      message: 'Bad request [validate]',
     })
   }
   next()
@@ -61,6 +66,9 @@ const validationUpdateStatusContact = (req, _res, next) => {
 const validationUpdateContact = (req, _res, next) => {
   return validate(schemaUpdateContact, req.body, next)
 }
+const validationUpdateSub = (req, _res, next) => {
+  return validate(schemaValidateUpdateSub, req.body, next)
+}
 const validationObjectId = async (req, res, next) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
     return next({ status: 400, message: 'Invalid Object Id' })
@@ -74,4 +82,5 @@ module.exports = {
   validationUpdateStatusContact,
   validationUpdateContact,
   validationObjectId,
+  validationUpdateSub,
 }

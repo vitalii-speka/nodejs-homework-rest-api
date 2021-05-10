@@ -1,8 +1,8 @@
 const { HttpCode } = require('./constants')
 
-const subscription = subscription => (req, res, next) => {
+const subscription = sub => (req, res, next) => {
   const subscriptionUser = req.user.subscription
-  if (subscriptionUser !== subscription) {
+  if (subscriptionUser !== sub) {
     return res.status(HttpCode.FORBIDDEN).json({
       status: 'error',
       code: HttpCode.FORBIDDEN,
