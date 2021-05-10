@@ -99,9 +99,18 @@ const saveAvatarUser = async (req, res, next) => {
   return path.join(FOLDER_AVATARS, newNameAvatar).replace('\\', '/')
 }
 
+const current = async (req, res, next) => {
+  const { email, subscription } = req.user
+  return res.status(HttpCode.OK).json({
+    status: 'success',
+    code: HttpCode.OK,
+    data: { email, subscription },
+  })
+}
 module.exports = {
   regist,
   login,
   logout,
   updateAvatar,
+  current,
 }

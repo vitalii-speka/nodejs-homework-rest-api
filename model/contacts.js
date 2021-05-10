@@ -23,8 +23,6 @@ const getAll = async (userId, query) => {
 }
 
 const getContactById = async (userId, contactId) => {
-  console.log('contactId', contactId)
-  console.log('userId', userId)
   const result = await Contact.findOne({ _id: contactId, owner: userId }).populate({
     path: 'owner',
     select: 'email subscription -_id',
@@ -39,7 +37,7 @@ const removeContact = async (userId, contactId) => {
 
 const addContact = async body => {
   // console.log('addContact userId', userId)
-  console.log('addContact body', body)
+  // console.log('addContact body', body)
   const result = await Contact.create(body)
   return result
 }
