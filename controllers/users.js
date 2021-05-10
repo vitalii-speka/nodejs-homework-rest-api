@@ -6,7 +6,8 @@ require('dotenv').config()
 
 const { HttpCode } = require('../helper/constants')
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
-const { findByEmail, crateUser, updateToken, updateAvatarUser } = require('../model/users')
+const { findById, findByEmail, crateUser, updateToken, updateSubUser, updateAvatarUser } = require('../model/users')
+const User = require('../model/schemas/user')
 
 const regist = async (req, res, next) => {
   const { email } = req.body
@@ -74,6 +75,7 @@ const updateAvatar = async (req, res, next) => {
   await updateAvatarUser(id, avatarURL)
   return res.status(HttpCode.OK).json({ status: 'success', code: HttpCode.OK, data: { avatarURL } })
 }
+
 const saveAvatarUser = async (req, res, next) => {
   const FOLDER_AVATARS = process.env.FOLDER_AVATARS
   // req.file
@@ -107,10 +109,32 @@ const current = async (req, res, next) => {
     data: { email, subscription },
   })
 }
+
+const updateSub = async (req, res, next) => {
+  try {
+    const id = req.user.id
+    await updateSubUser(id, req.body.subscription)
+    const user = await findById(id)
+    console.log(user)
+    return res.status(HttpCode.OK).json({
+      status: 'success',
+      code: HttpCode.OK,
+      data: {
+        email: user.email,
+        subscription: user.subscription,
+        avatarURL: user.avatar,
+      },
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
   regist,
   login,
   logout,
   updateAvatar,
   current,
+  updateSub,
 }

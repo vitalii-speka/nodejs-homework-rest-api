@@ -23,6 +23,7 @@ router.post('/register', limiter, userController.regist)
 router.post('/login', userController.login)
 router.post('/logout', guard, userController.logout)
 router.get('/current', guard, userController.current)
+router.patch('/', guard, userController.updateSub)
 router.patch('/avatars', guard, uploadAvatar.single('avatar'), userController.updateAvatar)
 
 module.exports = router

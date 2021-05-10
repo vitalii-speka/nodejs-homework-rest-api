@@ -29,10 +29,10 @@ const getById = async (req, res, next) => {
   try {
     const { contactId } = req.params
     const userId = req.user?.id
-    console.log(contactId)
-    console.log(userId)
+    // console.log(contactId)
+    // console.log(userId)
     const contact = await getContactById(userId, contactId)
-    console.log(contact)
+    // console.log(contact)
     if (contact) {
       return res.json({
         status: 'Success',
@@ -157,14 +157,23 @@ const updateStatus = async (req, res, next) => {
 }
 
 const onlyPro = async (req, res, next) => {
-  res.status(HttpCode.OK).json({
-    status: 'succes',
+  const { email, subscription } = req.user
+  return res.status(HttpCode.OK).json({
+    status: 'success',
     code: HttpCode.OK,
-    data: {
-      message: 'Only Pro',
-    },
+    message: 'Only Pro',
+    data: { email, subscription },
   })
+
+  // res.status(HttpCode.OK).json({
+  //   status: 'succes',
+  //   code: HttpCode.OK,
+  //   data: {
+  //     message: 'Only Pro',
+  //   },
+  // })
 }
+
 const onlyBusiness = async (req, res, next) => {
   res.status(HttpCode.OK).json({
     status: 'succes',

@@ -14,6 +14,9 @@ const crateUser = async userOptions => {
 const updateToken = async (id, token) => {
   return await User.updateOne({ _id: id }, { token })
 }
+const updateSubUser = async (id, subscription) => {
+  return await User.updateOne({ _id: id }, { subscription })
+}
 
 const updateAvatarUser = async (id, avatar, idCloudAvatar = null) => {
   return await User.updateOne({ _id: id }, { avatar, idCloudAvatar })
@@ -24,5 +27,6 @@ module.exports = {
   findByEmail,
   crateUser,
   updateToken,
+  updateSubUser,
   updateAvatarUser,
 }
