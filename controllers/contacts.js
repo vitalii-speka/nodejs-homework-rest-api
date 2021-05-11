@@ -27,11 +27,11 @@ const get = async (req, res, next) => {
 
 const getById = async (req, res, next) => {
   try {
-    const { contactId } = req.params
+    const { id } = req.params
     const userId = req.user?.id
-    // console.log(contactId)
+    // console.log(id)
     // console.log(userId)
-    const contact = await getContactById(userId, contactId)
+    const contact = await getContactById(userId, id)
     // console.log(contact)
     if (contact) {
       return res.json({
@@ -73,8 +73,8 @@ const create = async (req, res, next) => {
 const remove = async (req, res, next) => {
   try {
     const userId = req.user?.id
-    const { contactId } = req.params
-    const contact = await removeContact(userId, contactId)
+    const { id } = req.params
+    const contact = await removeContact(userId, id)
     if (contact) {
       return res.json({
         status: 'Success remove',
@@ -100,11 +100,11 @@ const update = async (req, res, next) => {
   try {
     const userId = req.user?.id
     const {
-      params: { contactId },
+      params: { id },
       body,
     } = req
 
-    const contact = await updateContact(userId, contactId, body)
+    const contact = await updateContact(userId, id, body)
     if (contact) {
       return res.json({
         status: 'Success',
@@ -130,11 +130,11 @@ const updateStatus = async (req, res, next) => {
   try {
     const userId = req.user?.id
     const {
-      params: { contactId },
+      params: { id },
       body,
     } = req
 
-    const contact = await updateStatusContact(userId, contactId, body)
+    const contact = await updateStatusContact(userId, id, body)
     if (contact) {
       return res.json({
         status: 'Success',

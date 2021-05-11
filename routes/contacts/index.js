@@ -20,9 +20,9 @@ router.get('/pro', guard, subscription(Subscription.PRO), contactsController.onl
 router.get('/business', guard, subscription(Subscription.BUSINESS), contactsController.onlyBusiness)
 
 router
-  .get('/:contactId', guard, contactsController.getById)
-  .delete('/:contactId', guard, contactsController.remove)
-  .patch('/:contactId/favorite', guard, validationUpdateStatusContact, contactsController.updateStatus)
-  .put('/:contactId', guard, validationUpdateContact, contactsController.update)
+  .get('/:id', guard, contactsController.getById)
+  .delete('/:id', guard, contactsController.remove)
+  .patch('/:id/favorite', guard, validationUpdateStatusContact, contactsController.updateStatus)
+  .put('/:id', guard, validationUpdateContact, contactsController.update)
 
 module.exports = router

@@ -22,16 +22,16 @@ const getAll = async (userId, query) => {
   return result
 }
 
-const getContactById = async (userId, contactId) => {
-  const result = await Contact.findOne({ _id: contactId, owner: userId }).populate({
+const getContactById = async (userId, id) => {
+  const result = await Contact.findOne({ _id: id, owner: userId }).populate({
     path: 'owner',
     select: 'email subscription -_id',
   })
   return result
 }
 
-const removeContact = async (userId, contactId) => {
-  const result = await Contact.findByIdAndRemove({ _id: contactId, owner: userId })
+const removeContact = async (userId, id) => {
+  const result = await Contact.findByIdAndRemove({ _id: id, owner: userId })
   return result
 }
 
@@ -42,13 +42,13 @@ const addContact = async body => {
   return result
 }
 
-const updateContact = async (userId, contactId, body) => {
-  const result = await Contact.findByIdAndUpdate({ _id: contactId, owner: userId }, { ...body }, { new: true })
+const updateContact = async (userId, id, body) => {
+  const result = await Contact.findByIdAndUpdate({ _id: id, owner: userId }, { ...body }, { new: true })
   return result
 }
 
-const updateStatusContact = async (userId, contactId, body) => {
-  const result = await Contact.findByIdAndUpdate({ _id: contactId, owner: userId }, { ...body }, { new: true })
+const updateStatusContact = async (userId, id, body) => {
+  const result = await Contact.findByIdAndUpdate({ _id: id, owner: userId }, { ...body }, { new: true })
   return result
 }
 
