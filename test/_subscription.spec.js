@@ -11,11 +11,11 @@ describe('Unit test: helper/subscrioption', () => {
   const next = jest.fn()
 
   test('run function with right subscrioption', () => {
-    subscription(Subscription.PRO)(req, res, next)
+    subscription(Subscription.BUSINESS)(req, res, next)
     expect(next).toHaveBeenCalled()
   })
   test('run function with wrong subscrioption ', () => {
-    const result = subscription(Subscription.BUSINESS)(req, res, next)
+    const result = subscription(Subscription.PRO)(req, res, next)
     expect(result.status).toEqual('error')
     expect(result.code).toEqual(HttpCode.FORBIDDEN)
     expect(result.message).toEqual('Access is denied')

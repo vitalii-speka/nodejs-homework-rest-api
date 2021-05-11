@@ -1,44 +1,44 @@
 const contacts = [
   {
-    _id: '5f837f855ba83a4f1829ca5b',
-    name: 'Barsik',
-    email: 'Barsik@com.ua',
-    phone: '(222) 222-2222',
+    _id: '608fcbb04c57cd00ec4857c4',
     favorite: false,
+    name: 'Abbot14',
+    email: 'Abbot14@gmail.com',
+    phone: '(666)568-3722',
+    owner: '608c5af873254e09909266d5',
   },
   {
-    _id: '5f8382425ba83a4f1829ca5c',
-    name: 'Lama',
-    email: 'Barsik@com.ua',
-    phone: '(444) 444-4444',
-    favorite: false,
+    _id: '608fce16bd93792f40e89f94',
+    favorite: true,
+    name: 'Abbot6',
+    email: 'Abbot6@gmail.com',
+    phone: '(666)568-3722',
+    owner: '608c5af873254e09909266d5',
   },
 ]
 
 const newContact = {
-  name: 'New',
-  email: 'New@com.ua',
-  phone: '(333) 333-3333',
+  name: 'Test Test',
+  email: 'test@test.com',
+  phone: '(000) 000-0000',
   favorite: false,
 }
 
 const User = {
+  _id: '608c5af873254e09909266d5',
+  id: '608c5af873254e09909266d5',
   name: 'Guest',
-  subscription: 'pro',
+  subscription: 'business',
   token:
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwNDc4MGIwYTMzZjU5M2I1ODY2ZDcwZCIsImlhdCI6MTYxNTMzNDc0NCwiZXhwIjoxNjE1MzM4MzQ0fQ.ZOul5xw2qGjRiFVXE4eKyIcJJ3ubRsVcmlXSm-KzNzg',
-  idCloudAvatar: null,
-  _id: '604780b0a33f593b5866d70d',
-  id: '604780b0a33f593b5866d70d',
-  email: 'test007@ex.ua',
-  password: '$2a$08$ebkI0zFk0IBoStiDDhyzr.9y0BqToGXPtrcTqcMErEuk4JHHF3K8O',
-  updatedAt: '2021-03-10T00:05:44.937Z',
-  avatar: 'https://s.gravatar.com/avatar/d6ac26ce64657b23fce03f68f65dc6b4?s=250',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOGM1YWY4NzMyNTRlMDk5MDkyNjZkNSIsImlhdCI6MTYyMDc1Nzc2MH0.Nmfj4ENc76nJjBuP9ONFh3wMC2v3NM7sSfBEI3bVzKU',
+  email: 'speka222@gmail.com',
+  password: '$2a$06$lMXagGHeAfvyt2r/xxkMO.WcpqEE6Ir.1lBTlflPePlMtfybrSW7u',
+  avatar: 'avatars/1620571935224-user-vector-avatar.jpg',
 }
 
 const users = []
 users[0] = User
 
-const newUser = { email: 'test@test.com', password: '123456' }
+const newUser = { email: 'test123456@test.com', password: '12345678' }
 
 module.exports = { contacts, newContact, User, users, newUser }
