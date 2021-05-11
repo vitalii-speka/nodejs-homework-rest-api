@@ -1,5 +1,4 @@
-/*
-const { users } = require('./data')
+const { User, users } = require('./data')
 const bcrypt = require('bcryptjs')
 const SALT_WORK_FACTOR = 10
 
@@ -19,7 +18,8 @@ const crateUser = jest.fn((name = 'Guest', email, password, subscrioption = 'pro
     email,
     password: pass,
     subscrioption,
-    _id: '604780b0a33f593b5866d70d',
+    _id: '608c5af873254e09909266d5',
+    id: '608c5af873254e09909266d5',
     validPassword: function (pass) {
       return bcrypt.compareSync(pass, this.password)
     },
@@ -52,7 +52,7 @@ module.exports = {
   updateAvatarUser,
 }
 
-*/
+/*
 const { User, users } = require('./data')
 const bcrypt = require('bcryptjs')
 const SALT_WORK_FACTOR = 10
@@ -100,3 +100,5 @@ module.exports = {
   updateToken,
   updateAvatar,
 }
+
+*/

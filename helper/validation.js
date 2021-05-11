@@ -10,7 +10,7 @@ const schemaAddContact = Joi.object({
     .required(),
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'org', 'ua'] } })
-    .optional(),
+    .required(),
   phone: Joi.string().min(10).max(14).required(),
   favorite: Joi.boolean().optional(),
 })
@@ -44,6 +44,14 @@ const schemaValidateUpdateSub = Joi.object({
 
 const validate = (schema, obj, next) => {
   const { error } = schema.validate(obj)
+
+  // if (error) {
+  //   const [{ message }] = error.details
+  //   return next({
+  //     status: HttpCode.BAD_REQUEST,
+  //     message: `Filed: ${message.replace(/"/g, '')}`,
+  //   })
+  // }
 
   if (error) {
     return next({

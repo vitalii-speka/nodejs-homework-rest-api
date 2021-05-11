@@ -6,6 +6,7 @@ const {
   validationAddContact,
   validationUpdateStatusContact,
   validationUpdateContact,
+  validationObjectId,
 } = require('../../helper/validation')
 const contactsController = require('../../controllers/contacts')
 const guard = require('../../helper/guard')
@@ -20,7 +21,7 @@ router.get('/pro', guard, subscription(Subscription.PRO), contactsController.onl
 router.get('/business', guard, subscription(Subscription.BUSINESS), contactsController.onlyBusiness)
 
 router
-  .get('/:id', guard, contactsController.getById)
+  .get('/:id', guard, validationObjectId, contactsController.getById)
   .delete('/:id', guard, contactsController.remove)
   .patch('/:id/favorite', guard, validationUpdateStatusContact, contactsController.updateStatus)
   .put('/:id', guard, validationUpdateContact, contactsController.update)

@@ -9,7 +9,7 @@ const contacts = [
   },
   {
     _id: '608fce16bd93792f40e89f94',
-    favorite: true,
+    favorite: false,
     name: 'Abbot6',
     email: 'Abbot6@gmail.com',
     phone: '(666)568-3722',
@@ -18,10 +18,9 @@ const contacts = [
 ]
 
 const newContact = {
-  name: 'Test Test',
-  email: 'test@test.com',
-  phone: '(000) 000-0000',
-  favorite: false,
+  name: 'Abbotj',
+  email: 'Abbotd@gmail.com',
+  phone: '(666) 568-3722',
 }
 
 const User = {
@@ -33,7 +32,7 @@ const User = {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOGM1YWY4NzMyNTRlMDk5MDkyNjZkNSIsImlhdCI6MTYyMDc1Nzc2MH0.Nmfj4ENc76nJjBuP9ONFh3wMC2v3NM7sSfBEI3bVzKU',
   email: 'speka222@gmail.com',
   password: '$2a$06$lMXagGHeAfvyt2r/xxkMO.WcpqEE6Ir.1lBTlflPePlMtfybrSW7u',
-  avatar: 'avatars/1620571935224-user-vector-avatar.jpg',
+  avatar: 'avatars/ava.jpg',
 }
 
 const users = []

@@ -29,10 +29,7 @@ const getById = async (req, res, next) => {
   try {
     const { id } = req.params
     const userId = req.user?.id
-    // console.log(id)
-    // console.log(userId)
     const contact = await getContactById(userId, id)
-    // console.log(contact)
     if (contact) {
       return res.json({
         status: 'Success',
@@ -118,7 +115,7 @@ const update = async (req, res, next) => {
       return res.status(HttpCode.NOT_FOUND).json({
         status: 'Error',
         code: HttpCode.NOT_FOUND,
-        message: 'Not found',
+        message: 'Not found!',
       })
     }
   } catch (error) {
@@ -145,9 +142,9 @@ const updateStatus = async (req, res, next) => {
         },
       })
     } else {
-      return res.status(HttpCode.BAD_REQUEST).json({
+      return res.status(HttpCode.NOT_FOUND).json({
         status: 'Error',
-        code: HttpCode.BAD_REQUEST,
+        code: HttpCode.NOT_FOUND,
         message: 'missing field favorite',
       })
     }
