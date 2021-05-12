@@ -24,23 +24,32 @@ const crateUser = jest.fn((name = 'Guest', email, password, subscrioption = 'pro
       return bcrypt.compareSync(pass, this.password)
     },
   }
-  user.push(newUser)
+  users.push(newUser)
   return newUser
 })
 
 const updateToken = jest.fn((id, token) => {
+  const [user] = users.filter(el => String(el._id) === String(id))
+  if (user) {
+    user.token = token
+  }
   return {}
 })
 
 const updateSubUser = jest.fn((id, subscription) => {
-  return {}
+  const [user] = users.filter(el => String(el._id) === String(id))
+  if (user) {
+    user.subscription = subscription
+  }
+  return user
 })
 
 const updateAvatarUser = jest.fn((id, avatar, idCloudAvatar = null) => {
   const [user] = users.filter(el => String(el._id) === String(id))
-  user.avatar = avatar
-  user.idCloudAvatar = idCloudAvatar
-  return user
+  if (user) {
+    user.avatar = avatar
+  }
+  return user.avatar
 })
 
 module.exports = {
