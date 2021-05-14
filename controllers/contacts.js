@@ -27,12 +27,9 @@ const get = async (req, res, next) => {
 
 const getById = async (req, res, next) => {
   try {
-    const { contactId } = req.params
+    const { id } = req.params
     const userId = req.user?.id
-    console.log(contactId)
-    console.log(userId)
-    const contact = await getContactById(userId, contactId)
-    console.log(contact)
+    const contact = await getContactById(userId, id)
     if (contact) {
       return res.json({
         status: 'Success',
@@ -73,8 +70,8 @@ const create = async (req, res, next) => {
 const remove = async (req, res, next) => {
   try {
     const userId = req.user?.id
-    const { contactId } = req.params
-    const contact = await removeContact(userId, contactId)
+    const { id } = req.params
+    const contact = await removeContact(userId, id)
     if (contact) {
       return res.json({
         status: 'Success remove',
@@ -100,11 +97,11 @@ const update = async (req, res, next) => {
   try {
     const userId = req.user?.id
     const {
-      params: { contactId },
+      params: { id },
       body,
     } = req
 
-    const contact = await updateContact(userId, contactId, body)
+    const contact = await updateContact(userId, id, body)
     if (contact) {
       return res.json({
         status: 'Success',
@@ -118,7 +115,7 @@ const update = async (req, res, next) => {
       return res.status(HttpCode.NOT_FOUND).json({
         status: 'Error',
         code: HttpCode.NOT_FOUND,
-        message: 'Not found',
+        message: 'Not found!',
       })
     }
   } catch (error) {
@@ -130,11 +127,11 @@ const updateStatus = async (req, res, next) => {
   try {
     const userId = req.user?.id
     const {
-      params: { contactId },
+      params: { id },
       body,
     } = req
 
-    const contact = await updateStatusContact(userId, contactId, body)
+    const contact = await updateStatusContact(userId, id, body)
     if (contact) {
       return res.json({
         status: 'Success',
@@ -145,15 +142,43 @@ const updateStatus = async (req, res, next) => {
         },
       })
     } else {
-      return res.status(HttpCode.BAD_REQUEST).json({
+      return res.status(HttpCode.NOT_FOUND).json({
         status: 'Error',
-        code: HttpCode.BAD_REQUEST,
+        code: HttpCode.NOT_FOUND,
         message: 'missing field favorite',
       })
     }
   } catch (error) {
     next(error)
   }
+}
+
+const onlyPro = async (req, res, next) => {
+  const { email, subscription } = req.user
+  return res.status(HttpCode.OK).json({
+    status: 'success',
+    code: HttpCode.OK,
+    message: 'Only Pro',
+    data: { email, subscription },
+  })
+
+  // res.status(HttpCode.OK).json({
+  //   status: 'succes',
+  //   code: HttpCode.OK,
+  //   data: {
+  //     message: 'Only Pro',
+  //   },
+  // })
+}
+
+const onlyBusiness = async (req, res, next) => {
+  res.status(HttpCode.OK).json({
+    status: 'succes',
+    code: HttpCode.OK,
+    data: {
+      message: 'Only Business',
+    },
+  })
 }
 
 module.exports = {
@@ -163,4 +188,6 @@ module.exports = {
   remove,
   update,
   updateStatus,
+  onlyPro,
+  onlyBusiness,
 }

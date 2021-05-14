@@ -1,10 +1,12 @@
 const express = require('express')
 const router = express.Router()
 
+const rateLimit = require('express-rate-limit')
 const userController = require('../../controllers/users')
 const guard = require('../../helper/guard')
-const rateLimit = require('express-rate-limit')
 const { HttpCode } = require('../../helper/constants')
+const uploadAvatar = require('../../helper/upload-avatars')
+const { validationUpdateSub } = require('../../helper/validation')
 
 const limiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour window
@@ -21,5 +23,8 @@ const limiter = rateLimit({
 router.post('/register', limiter, userController.regist)
 router.post('/login', userController.login)
 router.post('/logout', guard, userController.logout)
+router.get('/current', guard, userController.current)
+router.patch('/', guard, validationUpdateSub, userController.updateSub)
+router.patch('/avatars', guard, uploadAvatar.single('avatar'), userController.updateAvatar)
 
 module.exports = router
