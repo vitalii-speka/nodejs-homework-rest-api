@@ -23,10 +23,10 @@ describe('Unit test: helper/guard', () => {
     })
     guard(req, res, next)
     expect(req.get).toHaveBeenCalled()
-    expect(req.status).toHaveBeenCalled()
-    expect(req.json).toHaveBeenCalled()
-    expect(req.json).toHaveReturnWith({
-      status: 'error guardTest',
+    expect(res.status).toHaveBeenCalled()
+    expect(res.json).toHaveBeenCalled()
+    expect(res.json).toHaveReturnedWith({
+      status: 'error guard',
       code: HttpCode.UNAUTHORIZED,
       message: 'Not authorized',
     })
@@ -38,10 +38,10 @@ describe('Unit test: helper/guard', () => {
     })
     guard(req, res, next)
     expect(req.get).toHaveBeenCalled()
-    expect(req.status).toHaveBeenCalled()
-    expect(req.json).toHaveBeenCalled()
-    expect(req.json).toHaveReturnWith({
-      status: 'error guardTest',
+    expect(res.status).toHaveBeenCalled()
+    expect(res.json).toHaveBeenCalled()
+    expect(res.json).toHaveReturnedWith({
+      status: 'error guard',
       code: HttpCode.UNAUTHORIZED,
       message: 'Not authorized',
     })
