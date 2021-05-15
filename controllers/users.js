@@ -5,13 +5,13 @@ const path = require('path')
 require('dotenv').config()
 
 const { HttpCode } = require('../helper/constants')
+const EmailService = require('../services/email')
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
 const { findById, findByEmail, crateUser, updateToken, updateSubUser, updateAvatarUser } = require('../model/users')
 const User = require('../model/schemas/user')
 
 const regist = async (req, res, next) => {
-  const { email } = req.body
-  const user = await findByEmail(email)
+  const user = await findByEmail(req.body.email)
   if (user) {
     return res.status(HttpCode.CONFLICT).json({
       status: 'error register',
@@ -21,14 +21,16 @@ const regist = async (req, res, next) => {
   }
   try {
     const newUser = await crateUser(req.body)
+    // EmailService
+    const { id, name, email, subscription, avatar, verifyTokenEmail } = newUser
     return res.status(HttpCode.CREATED).json({
       status: 'success register',
       code: HttpCode.CREATED,
       data: {
-        id: newUser.id,
-        email: newUser.email,
-        subscription: newUser.subscription,
-        avatar: newUser.avatar,
+        id,
+        email,
+        subscription,
+        avatar,
       },
     })
   } catch (e) {
@@ -129,6 +131,9 @@ const updateSub = async (req, res, next) => {
   }
 }
 
+const verify = async (req, res, next) => {}
+const repeatEmailVerify = async (req, res, next) => {}
+
 module.exports = {
   regist,
   login,
@@ -136,4 +141,6 @@ module.exports = {
   updateAvatar,
   current,
   updateSub,
+  verify,
+  repeatEmailVerify,
 }

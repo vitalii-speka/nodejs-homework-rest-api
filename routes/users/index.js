@@ -26,5 +26,7 @@ router.post('/logout', guard, userController.logout)
 router.get('/current', guard, userController.current)
 router.patch('/', guard, validationUpdateSub, userController.updateSub)
 router.patch('/avatars', guard, uploadAvatar.single('avatar'), userController.updateAvatar)
+router.get('/verify/:token', userController.verify)
+router.post('/verify', userController.repeatEmailVerify)
 
 module.exports = router
