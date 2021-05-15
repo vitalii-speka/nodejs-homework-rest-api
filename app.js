@@ -52,7 +52,12 @@ app.use((req, res) => {
 })
 
 app.use((err, req, res, next) => {
-  res.status(err.status || HttpCode.SERVER_ERROR).json({ message: err.message })
+  const status = err.status || HttpCode.SERVER_ERROR
+  res.status(status).json({
+    status: status === 500 ? 'fail' : 'error',
+    code: status,
+    message: err.message,
+  })
 })
 
 module.exports = app
