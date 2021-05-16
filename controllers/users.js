@@ -17,7 +17,6 @@ const {
   updateSubUser,
   updateAvatarUser,
 } = require('../model/users')
-const User = require('../model/schemas/user')
 
 const regist = async (req, res, next) => {
   const user = await findByEmail(req.body.email)
@@ -148,11 +147,8 @@ const updateSub = async (req, res, next) => {
 }
 
 const verify = async (req, res, next) => {
-  console.log('🚀 ~ file: users.js ~ line 147 ~ verify ~ req.params.token', req.params.token)
   try {
     const user = await findByVerifyTokenEmail(req.params.token)
-    console.log('🚀 ~ file: users.js ~ line 145 ~ verify ~ user', user)
-    console.log('🚀 ~ file: users.js ~ line 149 ~ verify ~ user.id', user.id)
 
     if (user) {
       await updateVerifyToken(user.id, true, null)
@@ -177,7 +173,7 @@ const verify = async (req, res, next) => {
 
 const repeatEmailVerify = async (req, res, next) => {
   try {
-    const user = await User.findByEmail(req.body.email)
+    const user = await findByEmail(req.body.email)
     if (user) {
       const { name, email, verifyTokenEmail } = user
       const emailService = new EmailService(process.env.NODE_ENV)

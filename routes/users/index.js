@@ -6,7 +6,7 @@ const userController = require('../../controllers/users')
 const guard = require('../../helper/guard')
 const { HttpCode } = require('../../helper/constants')
 const uploadAvatar = require('../../helper/upload-avatars')
-const { validationUpdateSub } = require('../../helper/validation')
+const { validationUpdateSub, validationUserVerify } = require('../../helper/validation')
 
 const limiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour window
@@ -27,6 +27,6 @@ router.get('/current', guard, userController.current)
 router.patch('/', guard, validationUpdateSub, userController.updateSub)
 router.patch('/avatars', guard, uploadAvatar.single('avatar'), userController.updateAvatar)
 router.get('/verify/:token', userController.verify)
-router.post('/verify', userController.repeatEmailVerify)
+router.post('/verify', validationUserVerify, userController.repeatEmailVerify)
 
 module.exports = router
