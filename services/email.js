@@ -5,15 +5,15 @@ require('dotenv').config()
 class EmailService {
   #sender = sendgrid
   #GenerateTemplate = Mailgen
+
   constructor(env) {
     switch (env) {
-      case 'develompnent':
+      case 'development':
         this.link = 'http://localhost:3000'
         break
       case 'production':
-        this.link = 'linl for prouction'
+        this.link = 'link for production'
         break
-
       default:
         this.link = 'http://localhost:3000'
         break
@@ -22,13 +22,10 @@ class EmailService {
 
   #createTempleteVerifyEmail(verifyToken, name) {
     const mailGenerator = new this.#GenerateTemplate({
-      theme: 'cerberus ',
+      theme: 'cerberus',
       product: {
-        // Appears in header & footer of e-mails
         name: 'System Phonebook',
         link: this.link,
-        // Optional product logo
-        // logo: 'https://mailgen.js/img/logo.png'
       },
     })
 
@@ -47,8 +44,8 @@ class EmailService {
       },
     }
 
-    const emailBody = mailGenerator.generator(email)
-    return emailBodt
+    const emailBody = mailGenerator.generate(email)
+    return emailBody
   }
 
   async sendVerifyEmail(verifyToken, email, name) {
@@ -66,26 +63,3 @@ class EmailService {
 }
 
 module.exports = EmailService
-
-/*
-// using Twilio SendGrid's v3 Node.js Library
-// https://github.com/sendgrid/sendgrid-nodejs
-javascript
-const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-const msg = {
-  to: 'test@example.com', // Change to your recipient
-  from: 'test@example.com', // Change to your verified sender
-  subject: 'Sending with SendGrid is Fun',
-  text: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
-}
-sgMail
-  .send(msg)
-  .then(() => {
-    console.log('Email sent')
-  })
-  .catch((error) => {
-    console.error(error)
-  })
-*/
