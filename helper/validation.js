@@ -41,6 +41,9 @@ const schemaUpdateContact = Joi.object({
 const schemaValidateUpdateSub = Joi.object({
   subscription: Joi.any().valid(Subscription.STARTER, Subscription.PRO, Subscription.BUSINESS).required(),
 })
+const schemaValidationUserVerify = Joi.object({
+  email: Joi.string().email().required(),
+})
 
 const validate = (schema, obj, next) => {
   const { error } = schema.validate(obj)
@@ -83,6 +86,9 @@ const validationObjectId = async (req, res, next) => {
   }
   next()
 }
+const validationUserVerify = (req, _res, next) => {
+  return validate(schemaValidationUserVerify, req.body, next)
+}
 
 module.exports = {
   validationAddContact,
@@ -91,4 +97,5 @@ module.exports = {
   validationUpdateContact,
   validationObjectId,
   validationUpdateSub,
+  validationUserVerify,
 }

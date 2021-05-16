@@ -5,13 +5,21 @@ const path = require('path')
 require('dotenv').config()
 
 const { HttpCode } = require('../helper/constants')
+const EmailService = require('../services/email')
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
-const { findById, findByEmail, crateUser, updateToken, updateSubUser, updateAvatarUser } = require('../model/users')
-const User = require('../model/schemas/user')
+const {
+  findById,
+  findByEmail,
+  updateVerifyToken,
+  findByVerifyTokenEmail,
+  crateUser,
+  updateToken,
+  updateSubUser,
+  updateAvatarUser,
+} = require('../model/users')
 
 const regist = async (req, res, next) => {
-  const { email } = req.body
-  const user = await findByEmail(email)
+  const user = await findByEmail(req.body.email)
   if (user) {
     return res.status(HttpCode.CONFLICT).json({
       status: 'error register',
@@ -21,14 +29,23 @@ const regist = async (req, res, next) => {
   }
   try {
     const newUser = await crateUser(req.body)
+    // EmailService
+    const { id, name, email, subscription, avatar, verifyTokenEmail } = newUser
+    try {
+      const emailService = new EmailService(process.env.NODE_ENV)
+      await emailService.sendVerifyEmail(verifyTokenEmail, email, name)
+    } catch (e) {
+      console.log(e.message)
+    }
+
     return res.status(HttpCode.CREATED).json({
-      status: 'success register',
+      status: 'success',
       code: HttpCode.CREATED,
       data: {
-        id: newUser.id,
-        email: newUser.email,
-        subscription: newUser.subscription,
-        avatar: newUser.avatar,
+        id,
+        email,
+        subscription,
+        avatar,
       },
     })
   } catch (e) {
@@ -40,7 +57,7 @@ const login = async (req, res, next) => {
   const { email, password } = req.body
   const user = await findByEmail(email)
   const isValidPassword = await user?.validPassword(password)
-  if (!user || !isValidPassword) {
+  if (!user || !isValidPassword || !user.verify) {
     return res.status(HttpCode.UNAUTHORIZED).json({
       status: 'error login',
       code: HttpCode.UNAUTHORIZED,
@@ -129,6 +146,56 @@ const updateSub = async (req, res, next) => {
   }
 }
 
+const verify = async (req, res, next) => {
+  try {
+    const user = await findByVerifyTokenEmail(req.params.token)
+
+    if (user) {
+      await updateVerifyToken(user.id, true, null)
+      return res.status(HttpCode.OK).json({
+        status: 'success',
+        code: HttpCode.OK,
+        data: {
+          message: 'Verification successful',
+        },
+      })
+    }
+    return res.status(HttpCode.BAD_REQUEST).json({
+      status: 'error',
+      code: HttpCode.BAD_REQUEST,
+      message: 'Invalid token. Contact to administation',
+    })
+  } catch (error) {
+    console.log('dont run verify')
+    next(error)
+  }
+}
+
+const repeatEmailVerify = async (req, res, next) => {
+  try {
+    const user = await findByEmail(req.body.email)
+    if (user) {
+      const { name, email, verifyTokenEmail } = user
+      const emailService = new EmailService(process.env.NODE_ENV)
+      await emailService.sendVerifyEmail(verifyTokenEmail, email, name)
+      return res.status(HttpCode.OK).json({
+        status: 'success',
+        code: HttpCode.OK,
+        data: {
+          message: 'Verification email resubmitted',
+        },
+      })
+    }
+    return res.status(HttpCode.NOT_FOUND).json({
+      status: 'error',
+      code: HttpCode.NOT_FOUND,
+      message: 'User not found',
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
   regist,
   login,
@@ -136,4 +203,6 @@ module.exports = {
   updateAvatar,
   current,
   updateSub,
+  verify,
+  repeatEmailVerify,
 }

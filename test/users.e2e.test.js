@@ -95,7 +95,7 @@ describe('Testing the route api/users', () => {
       const res = await request(app)
         .patch('/api/users')
         .set('Authorization', `Bearer ${token}`)
-        .send({ subscription: 'free' })
+        .send({ subscription: 'business' })
       expect(res.status).toEqual(200)
       done()
     })
