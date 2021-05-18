@@ -23,15 +23,25 @@ describe('Testing the route api/users', () => {
   })
 
   describe('Testing user registration', () => {
-    it('Registration success should return 201 status', async done => {
+    test('Registration success should return 201 status', async () => {
       const res = await request(app).post('/api/users/register').send(newUser).set('Accept', 'application/json')
+
       expect(res.status).toEqual(201)
       expect(res.body).toBeDefined()
-      done()
+    })
+
+    it('!!!!responds with json', function (done) {
+      request(app)
+        .get('/api/users/register')
+        .send(newUser)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200, done)
     })
 
     it('Registration conflict error should return 409 status', async done => {
       const res = await request(app).post('/api/users/register').send(newUser).set('Accept', 'application/json')
+
       expect(res.status).toEqual(409)
       expect(res.body).toBeDefined()
       done()
