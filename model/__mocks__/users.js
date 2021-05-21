@@ -12,24 +12,26 @@ const findByEmail = jest.fn(email => {
   return user
 })
 
-// const crateUser = jest.fn((name = 'Guest', email, password, subscrioption = 'pro') => {
-//   pass = bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_WORK_FACTOR), null)
-//   const newUser = {
-//     name,
-//     email,
-//     password: pass,
-//     subscrioption,
-//     _id: '608c5af873254e09909266d5',
-//     id: '608c5af873254e09909266d5',
-//     validPassword: function (pass) {
-//       return bcrypt.compareSync(pass, this.password)
-//     },
-//     avatar: 'avatars/ava.jpg',
-//   }
-//   users.push(newUser)
-//   console.log('🚀 ~ file: users.js ~ line 17 ~ crateUser ~ newUser', users)
-//   return newUser
-// })
+/* dont work.. 
+const crateUser = jest.fn((name = 'Guest', email, password, subscrioption = 'pro') => {
+  pass = bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_WORK_FACTOR), null)
+  const newUser = {
+    name,
+    email,
+    password: pass,
+    subscrioption,
+    _id: '608c5af873254e09909266d5',
+    id: '608c5af873254e09909266d5',
+    validPassword: function (pass) {
+      return bcrypt.compareSync(pass, this.password)
+    },
+    avatar: 'avatars/ava.jpg',
+  }
+  users.push(newUser)
+  console.log('🚀 ~ file: users.js ~ line 17 ~ crateUser ~ newUser', users)
+  return newUser
+})
+*/
 
 const crateUser = jest.fn(({ email, password }) => {
   const pass = bcrypt.hashSync(password, bcrypt.genSaltSync(8))

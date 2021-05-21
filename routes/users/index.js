@@ -21,7 +21,7 @@ const limiter = rateLimit({
 })
 
 router.post('/register', validationRegistUser, limiter, userController.regist)
-router.post('/login', userController.login)
+router.post('/login', validationRegistUser, userController.login)
 router.post('/logout', guard, userController.logout)
 router.get('/current', guard, userController.current)
 router.patch('/', guard, validationUpdateSub, userController.updateSub)
