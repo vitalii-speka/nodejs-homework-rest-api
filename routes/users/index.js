@@ -6,7 +6,7 @@ const userController = require('../../controllers/users')
 const guard = require('../../helper/guard')
 const { HttpCode } = require('../../helper/constants')
 const uploadAvatar = require('../../helper/upload-avatars')
-const { validationUpdateSub, validationUserVerify } = require('../../helper/validation')
+const { validationUpdateSub, validationUserVerify, validationRegistUser } = require('../../helper/validation')
 
 const limiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour window
@@ -20,7 +20,7 @@ const limiter = rateLimit({
   },
 })
 
-router.post('/register', limiter, userController.regist)
+router.post('/register', validationRegistUser, limiter, userController.regist)
 router.post('/login', userController.login)
 router.post('/logout', guard, userController.logout)
 router.get('/current', guard, userController.current)

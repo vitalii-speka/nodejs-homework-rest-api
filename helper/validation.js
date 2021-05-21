@@ -41,6 +41,11 @@ const schemaUpdateContact = Joi.object({
 const schemaValidateUpdateSub = Joi.object({
   subscription: Joi.any().valid(Subscription.STARTER, Subscription.PRO, Subscription.BUSINESS).required(),
 })
+const schemaRegistUser = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(5).required(),
+})
+
 const schemaValidationUserVerify = Joi.object({
   email: Joi.string().email().required(),
 })
@@ -77,6 +82,10 @@ const validationUpdateStatusContact = (req, _res, next) => {
 const validationUpdateContact = (req, _res, next) => {
   return validate(schemaUpdateContact, req.body, next)
 }
+const validationRegistUser = (req, _res, next) => {
+  return validate(schemaRegistUser, req.body, next)
+}
+
 const validationUpdateSub = (req, _res, next) => {
   return validate(schemaValidateUpdateSub, req.body, next)
 }
@@ -95,6 +104,7 @@ module.exports = {
   validationQueryContact,
   validationUpdateStatusContact,
   validationUpdateContact,
+  validationRegistUser,
   validationObjectId,
   validationUpdateSub,
   validationUserVerify,
