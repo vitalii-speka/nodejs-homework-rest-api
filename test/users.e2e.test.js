@@ -164,4 +164,41 @@ describe('Testing the route api/users', () => {
       done()
     })
   })
+
+  describe('Testing verify email for POST: /verify ', () => {
+    test('should return 404 status', async done => {
+      const res = await request(app)
+        .post('/api/users/verify')
+        .send({ email: 'spekamm@gmail.com' })
+        .set('Accept', 'application/json')
+
+      expect(res.status).toEqual(404)
+      expect(res.body).toBeDefined()
+      done()
+    })
+
+    test('should return 400 status', async done => {
+      const res = await request(app)
+        .post('/api/users/verify')
+        .send({ name: 'spekav@i.ua' })
+        .set('Accept', 'application/json')
+
+      expect(res.status).toEqual(400)
+      expect(res.body).toBeDefined()
+      done()
+    })
+
+    test('should return 200 status', async done => {
+      const res = await request(app)
+        .post('/api/users/verify')
+        .send({
+          email: 'spekav@i.ua',
+        })
+        .set('Accept', 'application/json')
+
+      expect(res.status).toEqual(200)
+      expect(res.body).toBeDefined()
+      done()
+    })
+  })
 })

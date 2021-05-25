@@ -9,6 +9,7 @@ const findByEmail = async email => {
 const findByVerifyTokenEmail = async token => {
   return await User.findOne({ verifyTokenEmail: token })
 }
+
 const crateUser = async userOptions => {
   const user = new User(userOptions)
   return await user.save()
@@ -28,6 +29,7 @@ const updateAvatarUser = async (id, avatar, idCloudAvatar = null) => {
 const updateVerifyToken = async (id, verify, verifyToken) => {
   return await User.updateOne({ _id: id }, { verify, verifyTokenEmail: verifyToken })
 }
+
 module.exports = {
   findById,
   findByEmail,

@@ -33,6 +33,8 @@ const User = {
   email: 'speka222@gmail.com',
   password: '$2a$06$lMXagGHeAfvyt2r/xxkMO.WcpqEE6Ir.1lBTlflPePlMtfybrSW7u',
   avatar: 'avatars\\1621964295570-ava.jpg',
+  verify: true,
+  verifyTokenEmail: null,
 }
 
 const users = []
