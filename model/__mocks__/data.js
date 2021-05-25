@@ -32,7 +32,7 @@ const User = {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYwOGM1YWY4NzMyNTRlMDk5MDkyNjZkNSIsImlhdCI6MTYyMDc1Nzc2MH0.Nmfj4ENc76nJjBuP9ONFh3wMC2v3NM7sSfBEI3bVzKU',
   email: 'speka222@gmail.com',
   password: '$2a$06$lMXagGHeAfvyt2r/xxkMO.WcpqEE6Ir.1lBTlflPePlMtfybrSW7u',
-  avatar: 'avatars/ava.jpg',
+  avatar: 'avatars\\1621964295570-ava.jpg',
 }
 
 const users = []

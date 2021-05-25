@@ -42,6 +42,7 @@ const crateUser = jest.fn(({ email, password }) => {
     validPassword: function (pass) {
       return bcrypt.compareSync(pass, this.password)
     },
+    verify: true,
   }
   users.push(newUser)
   return newUser

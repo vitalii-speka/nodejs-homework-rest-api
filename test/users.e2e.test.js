@@ -57,7 +57,6 @@ describe('Testing the route api/users', () => {
           password: '11111',
         })
         .set('Accept', 'application/json')
-      console.log('🚀 ~ file: users.e2e.test.js ~ line !!! ~ describe ~ res.error', res.error)
 
       expect(res.status).toEqual(200)
       expect(res.body).toBeDefined()
@@ -137,7 +136,7 @@ describe('Testing the route api/users', () => {
         .attach('avatar', buffer, 'ava.jpg')
       expect(res.status).toEqual(200)
       expect(res.body).toBeDefined()
-      expect(res.body.data).toHaveProperty('avatar')
+      expect(res.body.data).toHaveProperty('avatarURL')
       done()
     })
 

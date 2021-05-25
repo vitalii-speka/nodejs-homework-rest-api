@@ -56,11 +56,8 @@ const regist = async (req, res, next) => {
 const login = async (req, res, next) => {
   const { email, password } = req.body
   const user = await findByEmail(email)
-  console.log('🚀 ~ file: users.js ~ line 59 ~ login ~ user', user)
 
   const isValidPassword = await user?.validPassword(password)
-  console.log('🚀 ~ file: users.js ~ line 62 ~ login ~ isValidPassword', isValidPassword)
-  console.log('🚀 ~ file: users.js ~ line 64 ~ login ~ user.verify', user.verify)
   if (!user || !isValidPassword || !user.verify) {
     return res.status(HttpCode.UNAUTHORIZED).json({
       status: 'error login',
