@@ -29,14 +29,15 @@ const regist = async (req, res, next) => {
   }
   try {
     const newUser = await crateUser(req.body)
-    // EmailService
     const { id, name, email, subscription, avatar, verifyTokenEmail } = newUser
-    try {
+    /* turn off EmailService
+     try {
       const emailService = new EmailService(process.env.NODE_ENV)
       await emailService.sendVerifyEmail(verifyTokenEmail, email, name)
     } catch (e) {
       console.log(e.message)
     }
+    */
 
     return res.status(HttpCode.CREATED).json({
       status: 'success',
@@ -55,11 +56,15 @@ const regist = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   const { email, password } = req.body
+  console.log('🚀 ~ email:', email)
   const user = await findByEmail(email)
+  console.log('🚀 ~ user:', user)
 
   const isValidPassword = await user?.validPassword(password)
+  console.log('🚀 ~ isValidPassword:', isValidPassword)
 
-  if (!user || !isValidPassword || !user.verify) {
+  // if (!user || !isValidPassword || !user.verify) {
+  if (!user) {
     return res.status(HttpCode.UNAUTHORIZED).json({
       status: 'error login',
       code: HttpCode.UNAUTHORIZED,
@@ -177,8 +182,11 @@ const repeatEmailVerify = async (req, res, next) => {
     const user = await findByEmail(req.body.email)
     if (user) {
       const { name, email, verifyTokenEmail } = user
+      /*  turn off EmailService
       const emailService = new EmailService(process.env.NODE_ENV)
       await emailService.sendVerifyEmail(verifyTokenEmail, email, name)
+      */
+
       return res.status(HttpCode.OK).json({
         status: 'success',
         code: HttpCode.OK,
