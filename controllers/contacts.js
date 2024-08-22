@@ -161,14 +161,6 @@ const onlyPro = async (req, res, next) => {
     message: 'Only Pro',
     data: { email, subscription },
   })
-
-  // res.status(HttpCode.OK).json({
-  //   status: 'succes',
-  //   code: HttpCode.OK,
-  //   data: {
-  //     message: 'Only Pro',
-  //   },
-  // })
 }
 
 const onlyBusiness = async (req, res, next) => {
