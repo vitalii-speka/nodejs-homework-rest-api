@@ -7,156 +7,120 @@ const {
   updateStatusContact,
 } = require('../model/contacts')
 const { HttpCode } = require('../helper/constants')
+const ctrlWrapper = require('../helper/ctrlWrapper')
+const HttpError = require('../helper/HttpError')
+const HttpSuccess = require('../helper/HttpSuccess')
 
-const get = async (req, res, next) => {
-  try {
-    const userId = req.user?.id
-    const contacts = await getAll(userId, req.query)
-    res.status(HttpCode.OK).json({
-      status: 'succes get',
+const get = async (req, res) => {
+  const userId = req.user?.id
+  const contacts = await getAll(userId, req.query)
+  HttpSuccess("Success", HttpCode.OK, 'Contacts found'),
+  res.status(HttpCode.OK).json({
+    // status: 'Success',
+    // code: HttpCode.OK,
+    // message: 'Contacts found',
+    data: {
+      contacts,
+    },
+  })
+}
+
+const getById = async (req, res) => {
+  const { id } = req.params
+  const userId = req.user?.id
+  const contact = await getContactById(id, userId)
+  if (contact) {
+    return res.json({
+      status: 'Success getById',
       code: HttpCode.OK,
-      message: 'contact found',
+      message: 'Contact found',
       data: {
-        contacts,
+        contact,
       },
     })
-  } catch (error) {
-    next(error)
+  } else {
+    throw HttpError(HttpCode.NOT_FOUND, 'Not found getById')
   }
 }
 
-const getById = async (req, res, next) => {
-  try {
-    const { id } = req.params
-    const userId = req.user?.id
-    const contact = await getContactById(userId, id)
-    if (contact) {
-      return res.json({
-        status: 'Success',
-        code: HttpCode.OK,
-        message: 'contact found',
-        data: {
-          contact,
-        },
-      })
-    } else {
-      return res.status(HttpCode.NOT_FOUND).json({
-        status: 'error getById',
-        code: HttpCode.NOT_FOUND,
-        message: 'Not found getBuId',
-      })
-    }
-  } catch (error) {
-    next(error)
-  }
+const create = async (req, res) => {
+  const userId = req.user?.id
+  const { body } = req
+  const contact = await addContact({ ...body, owner: userId })
+  res.status(HttpCode.CREATED).json({
+    status: 'Success create',
+    code: HttpCode.CREATED,
+    message: 'Contact created',
+    data: contact,
+  })
 }
 
-const create = async (req, res, next) => {
-  try {
-    const userId = req.user?.id
-    const { body } = req
-    const contact = await addContact({ ...body, owner: userId })
-    res.status(HttpCode.CREATED).json({
-      status: 'Succes create',
-      code: HttpCode.CREATED,
-      message: 'Contact create',
-      data: contact,
+const remove = async (req, res) => {
+  const userId = req.user?.id
+  const { id } = req.params
+  const contact = await removeContact(userId, id)
+  if (contact) {
+    return res.json({
+      status: 'Success remove',
+      code: HttpCode.OK,
+      message: 'contact deleted',
+      data: {
+        contact,
+      },
     })
-  } catch (error) {
-    next(error)
+  } else {
+    throw HttpError(HttpCode.NOT_FOUND, 'Not found')
   }
 }
 
-const remove = async (req, res, next) => {
-  try {
-    const userId = req.user?.id
-    const { id } = req.params
-    const contact = await removeContact(userId, id)
-    if (contact) {
-      return res.json({
-        status: 'Success remove',
-        code: HttpCode.OK,
-        message: 'contact deleted',
-        data: {
-          contact,
-        },
-      })
-    } else {
-      return res.status(HttpCode.NOT_FOUND).json({
-        status: 'Error remove',
-        code: HttpCode.NOT_FOUND,
-        message: 'Not found',
-      })
-    }
-  } catch (error) {
-    next(error)
+const update = async (req, res) => {
+  const userId = req.user?.id
+  const {
+    params: { id },
+    body,
+  } = req
+
+  const contact = await updateContact(userId, id, body)
+  if (contact) {
+    return res.json({
+      status: 'Success',
+      code: HttpCode.OK,
+      message: 'contact update',
+      data: {
+        contact,
+      },
+    })
+  } else {
+    throw HttpError(HttpCode.NOT_FOUND, 'Not found')
   }
 }
 
-const update = async (req, res, next) => {
-  try {
-    const userId = req.user?.id
-    const {
-      params: { id },
-      body,
-    } = req
+const updateStatus = async (req, res) => {
+  const userId = req.user?.id
+  const {
+    params: { id },
+    body,
+  } = req
 
-    const contact = await updateContact(userId, id, body)
-    if (contact) {
-      return res.json({
-        status: 'Success',
-        code: HttpCode.OK,
-        message: 'contact update',
-        data: {
-          contact,
-        },
-      })
-    } else {
-      return res.status(HttpCode.NOT_FOUND).json({
-        status: 'Error',
-        code: HttpCode.NOT_FOUND,
-        message: 'Not found!',
-      })
-    }
-  } catch (error) {
-    next(error)
+  const contact = await updateStatusContact(userId, id, body)
+  if (contact) {
+    return res.json({
+      status: 'Success',
+      code: HttpCode.OK,
+      message: 'contact status update',
+      data: {
+        contact,
+      },
+    })
+  } else {
+    throw HttpError(HttpCode.NOT_FOUND, 'missing field favorite')
   }
 }
 
-const updateStatus = async (req, res, next) => {
-  try {
-    const userId = req.user?.id
-    const {
-      params: { id },
-      body,
-    } = req
-
-    const contact = await updateStatusContact(userId, id, body)
-    if (contact) {
-      return res.json({
-        status: 'Success',
-        code: HttpCode.OK,
-        message: 'contact status update',
-        data: {
-          contact,
-        },
-      })
-    } else {
-      return res.status(HttpCode.NOT_FOUND).json({
-        status: 'Error',
-        code: HttpCode.NOT_FOUND,
-        message: 'missing field favorite',
-      })
-    }
-  } catch (error) {
-    next(error)
-  }
-}
-
-const onlyPro = async (req, res, next) => {
+const onlyPro = async (req, res) => {
   const { email, subscription } = req.user
   return res.status(HttpCode.OK).json({
-    status: 'success',
+    status: 'Success',
     code: HttpCode.OK,
     message: 'Only Pro',
     data: { email, subscription },
@@ -165,7 +129,7 @@ const onlyPro = async (req, res, next) => {
 
 const onlyBusiness = async (req, res, next) => {
   res.status(HttpCode.OK).json({
-    status: 'succes',
+    status: 'Success',
     code: HttpCode.OK,
     data: {
       message: 'Only Business',
@@ -174,12 +138,12 @@ const onlyBusiness = async (req, res, next) => {
 }
 
 module.exports = {
-  get,
-  getById,
-  create,
-  remove,
-  update,
-  updateStatus,
+  get: ctrlWrapper(get),
+  getById: ctrlWrapper(getById),
+  create: ctrlWrapper(create),
+  remove: ctrlWrapper(remove),
+  update: ctrlWrapper(update),
+  updateStatus: ctrlWrapper(updateStatus),
   onlyPro,
   onlyBusiness,
 }
