@@ -29,6 +29,7 @@ const regist = async (req, res, next) => {
   }
   try {
     const newUser = await crateUser(req.body)
+    console.log('🚀 ~ regist ~ newUser:', newUser)
     const { id, name, email, subscription, avatar, verifyTokenEmail } = newUser
     /* turn off EmailService
      try {
@@ -42,7 +43,7 @@ const regist = async (req, res, next) => {
     return res.status(HttpCode.CREATED).json({
       status: 'success',
       code: HttpCode.CREATED,
-      data: {
+      user: {
         id,
         email,
         subscription,
@@ -56,8 +57,9 @@ const regist = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   const { email, password } = req.body
+  console.log('🚀 ~ req.body:', req.body)
   const user = await findByEmail(email)
-  console.log("🚀 ~ user:", user)
+  console.log('🚀 ~ user:', user)
 
   const isValidPassword = await user?.validPassword(password)
   // if (!user || !isValidPassword || !user.verify) {
@@ -83,9 +85,13 @@ const login = async (req, res, next) => {
 }
 
 const logout = async (req, res, next) => {
+  // console.log('🚀 ~ logout ~ req:', req)
   const id = req.user.id
+  // console.log('🚀 ~ logout ~ id:', id)
   await updateToken(id, null)
-  return res.status(HttpCode.NO_CONTENT).json({})
+  return res.status(HttpCode.NO_CONTENT).json({
+    message: 'LogOut Success',
+  })
 }
 
 const updateAvatar = async (req, res, next) => {
