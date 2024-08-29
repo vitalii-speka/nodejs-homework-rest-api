@@ -4,6 +4,7 @@ const findById = async id => {
   return await User.findOne({ _id: id })
 }
 const findByEmail = async email => {
+  console.log("🚀 ~ findByEmail ~ email:", email)
   return await User.findOne({ email })
 }
 const findByVerifyTokenEmail = async token => {

@@ -57,6 +57,7 @@ const regist = async (req, res, next) => {
 const login = async (req, res, next) => {
   const { email, password } = req.body
   const user = await findByEmail(email)
+  console.log("🚀 ~ user:", user)
 
   const isValidPassword = await user?.validPassword(password)
   // if (!user || !isValidPassword || !user.verify) {
@@ -72,13 +73,11 @@ const login = async (req, res, next) => {
   await updateToken(user.id, token)
   return res.status(HttpCode.OK).json({
     status: 'success login',
-    code: HttpCode.OK,
-    data: {
-      token: token,
-      user: {
-        email: user.email,
-        subscription: user.subscription,
-      },
+    // code: HttpCode.OK,
+    token: token,
+    user: {
+      email: user.email,
+      subscription: user.subscription,
     },
   })
 }

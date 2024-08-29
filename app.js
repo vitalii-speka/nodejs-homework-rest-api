@@ -14,7 +14,6 @@ const app = express()
 
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short'
 
-
 app.use(helmet())
 app.get('env') !== 'test' && app.use(logger(formatsLogger))
 app.use(express.static('public'))
@@ -46,6 +45,8 @@ app.use(boolParser())
 
 app.use('/api/users', usersRouter)
 app.use('/api/contacts', contactsRouter)
+
+
 
 app.use((req, res) => {
   res.status(HttpCode.NOT_FOUND).json({ message: 'Not found' })

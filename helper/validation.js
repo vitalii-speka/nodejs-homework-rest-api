@@ -43,6 +43,7 @@ const schemaValidateUpdateSub = Joi.object({
 })
 
 const schemaRegistUser = Joi.object({
+  name: Joi.string().min(3).max(30).optional(),
   email: Joi.string().email().required(),
   password: Joi.string().min(5).required(),
 })
@@ -54,13 +55,15 @@ const schemaValidationUserVerify = Joi.object({
 const validate = (schema, obj, next) => {
   const { error } = schema.validate(obj)
 
-  // if (error) {
-  //   const [{ message }] = error.details
-  //   return next({
-  //     status: HttpCode.BAD_REQUEST,
-  //     message: `Filed: ${message.replace(/"/g, '')}`,
-  //   })
-  // }
+  /* 
+  if (error) {
+    const [{ message }] = error.details
+    return next({
+      status: HttpCode.BAD_REQUEST,
+      message: `Filed: ${message.replace(/"/g, '')}`,
+    })
+  }
+ */
 
   if (error) {
     return next({

@@ -14,15 +14,16 @@ const HttpSuccess = require('../helper/HttpSuccess')
 const get = async (req, res) => {
   const userId = req.user?.id
   const contacts = await getAll(userId, req.query)
-  HttpSuccess("Success", HttpCode.OK, 'Contacts found'),
-  res.status(HttpCode.OK).json({
-    // status: 'Success',
-    // code: HttpCode.OK,
-    // message: 'Contacts found',
-    data: {
+  HttpSuccess('Success', HttpCode.OK, 'Contacts found'),
+    res.status(HttpCode.OK).json({
       contacts,
-    },
-  })
+      // status: 'Success',
+      // code: HttpCode.OK,
+      // message: 'Contacts found',
+      // data: {
+      //   contacts,
+      // },
+    })
 }
 
 const getById = async (req, res) => {
