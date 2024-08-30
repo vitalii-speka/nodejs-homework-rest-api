@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 const gravatar = require('gravatar')
 const { nanoid } = require('nanoid')
 
-const { Subscription } = require('../../helper/constants')
+const { Subscription } = require('../../helpers/constants')
 const SALT_FACTOR = 6
 
 const userSchema = new Schema(

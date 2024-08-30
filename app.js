@@ -8,7 +8,7 @@ require('dotenv').config()
 
 const contactsRouter = require('./routes/contacts')
 const usersRouter = require('./routes/users')
-const { HttpCode } = require('./helper/constants')
+const { HttpCode } = require('./helpers/constants')
 
 const app = express()
 
@@ -45,8 +45,6 @@ app.use(boolParser())
 
 app.use('/api/users', usersRouter)
 app.use('/api/contacts', contactsRouter)
-
-
 
 app.use((req, res) => {
   res.status(HttpCode.NOT_FOUND).json({ message: 'Not found' })

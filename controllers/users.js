@@ -4,7 +4,7 @@ const fs = require('fs/promises')
 const path = require('path')
 require('dotenv').config()
 
-const { HttpCode } = require('../helper/constants')
+const { HttpCode } = require('../helpers/constants')
 const EmailService = require('../services/email')
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
 const {

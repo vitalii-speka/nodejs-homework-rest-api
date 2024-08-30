@@ -7,11 +7,11 @@ const {
   validationUpdateStatusContact,
   validationUpdateContact,
   validationObjectId,
-} = require('../../helper/validation')
+} = require('../../helpers/validation')
 const contactsController = require('../../controllers/contacts')
-const guard = require('../../helper/guard')
-const { Subscription } = require('../../helper/constants')
-const subscription = require('../../helper/subscription')
+const guard = require('../../helpers/guard')
+const { Subscription } = require('../../helpers/constants')
+const subscription = require('../../helpers/subscription')
 
 router
   .get('/', guard, validationQueryContact, contactsController.get)

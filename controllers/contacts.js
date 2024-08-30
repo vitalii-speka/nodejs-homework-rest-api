@@ -6,10 +6,10 @@ const {
   removeContact,
   updateStatusContact,
 } = require('../model/contacts')
-const { HttpCode } = require('../helper/constants')
-const ctrlWrapper = require('../helper/ctrlWrapper')
-const HttpError = require('../helper/HttpError')
-const HttpSuccess = require('../helper/HttpSuccess')
+const { HttpCode } = require('../helpers/constants')
+const ctrlWrapper = require('../helpers/ctrlWrapper')
+const HttpError = require('../helpers/HttpError')
+const HttpSuccess = require('../helpers/HttpSuccess')
 
 const get = async (req, res) => {
   const userId = req.user?.id

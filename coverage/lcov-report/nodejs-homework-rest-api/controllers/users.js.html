@@ -341,7 +341,7 @@ const fs = require('fs/promises')
 const path = require('path')
 require('dotenv').config()
 &nbsp;
-const { HttpCode } = require('../helper/constants')
+const { HttpCode } = require('../helpers/constants')
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
 const { findById, findByEmail, crateUser, updateToken, updateSubUser, updateAvatarUser } = require('../model/users')
 const User = require('../model/schemas/user')
