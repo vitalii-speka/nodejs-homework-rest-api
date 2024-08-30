@@ -7,6 +7,7 @@ const guard = require('../../helpers/guard')
 const { HttpCode } = require('../../helpers/constants')
 const uploadAvatar = require('../../helpers/upload-avatars')
 const { validationUpdateSub, validationUserVerify, validationRegistUser } = require('../../helpers/validation')
+const authenticate = require('../../middelwares/authenticate')
 
 const limiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hour window

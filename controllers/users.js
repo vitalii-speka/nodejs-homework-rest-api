@@ -45,6 +45,7 @@ const regist = async (req, res, next) => {
       code: HttpCode.CREATED,
       user: {
         id,
+        name,
         email,
         subscription,
         avatar,
@@ -58,6 +59,7 @@ const regist = async (req, res, next) => {
 const login = async (req, res, next) => {
   const { email, password } = req.body
   console.log('🚀 ~ req.body:', req.body)
+  // console.log('🚀 ~ req.headers:', req.headers)
   const user = await findByEmail(email)
   console.log('🚀 ~ user:', user)
 
@@ -78,6 +80,8 @@ const login = async (req, res, next) => {
     // code: HttpCode.OK,
     token: token,
     user: {
+      id: user.id,
+      name: user.name,
       email: user.email,
       subscription: user.subscription,
     },
