@@ -9,7 +9,7 @@ class EmailService {
   constructor(env) {
     switch (env) {
       case 'development':
-        this.link = 'http://localhost:3000'
+        this.link = 'http://localhost:8000'
         break
       case 'production':
         this.link = 'link for production'

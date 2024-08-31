@@ -29,7 +29,6 @@ const regist = async (req, res, next) => {
   }
   try {
     const newUser = await crateUser(req.body)
-    console.log('🚀 ~ regist ~ newUser:', newUser)
     const { id, name, email, subscription, avatar, verifyTokenEmail } = newUser
     /* turn off EmailService
      try {
@@ -73,7 +72,7 @@ const login = async (req, res, next) => {
     })
   }
   const payload = { id: user.id }
-  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '5h' })
+  const token = jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '12h' })
   await updateToken(user.id, token)
   return res.status(HttpCode.OK).json({
     status: 'success login',
