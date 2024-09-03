@@ -6,18 +6,18 @@ const schemaAddContact = Joi.object({
   name: Joi.string()
     .min(3)
     .max(30)
-    .pattern(/[A-Z]\w+/)
+    // .pattern(/[A-Z]\w+/)
     .required(),
-  email: Joi.string()
-    .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'org', 'ua'] } })
-    .required(),
-  phone: Joi.string().min(10).max(14).required(),
+  // email: Joi.string().email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'org', 'ua'] } }),
+  // .required(),
+  // number: Joi.string().min(10).max(14).required(),
+  number: Joi.string().required(),
   favorite: Joi.boolean().optional(),
 })
 
 const schemaQueryContact = Joi.object({
-  sortBy: Joi.string().valid('name', 'email', 'phone').optional(),
-  sortByDesc: Joi.string().valid('name', 'email', 'phone').optional(),
+  sortBy: Joi.string().valid('name', 'email', 'number').optional(),
+  sortByDesc: Joi.string().valid('name', 'email', 'number').optional(),
   filter: Joi.string().optional(),
   limit: Joi.number().integer().min(1).max(50).optional(),
   offset: Joi.number().integer().min(1).optional(),
@@ -31,12 +31,12 @@ const schemaUpdateStatusContact = Joi.object({
 const schemaUpdateContact = Joi.object({
   name: Joi.string().min(3).max(30).optional(),
   email: Joi.string().email().optional(),
-  phone: Joi.string()
+  number: Joi.string()
     .pattern(/^[(][\d]{3}[)]\s[\d]{3}[-][\d]{4}/)
     .optional(),
   favorite: Joi.boolean(),
   subscription: Joi.string(),
-}).or('name', 'email', 'phone', 'favorite', 'subscription')
+}).or('name', 'email', 'number', 'favorite', 'subscription')
 
 const schemaValidateUpdateSub = Joi.object({
   subscription: Joi.any().valid(Subscription.STARTER, Subscription.PRO, Subscription.BUSINESS).required(),
@@ -54,6 +54,7 @@ const schemaValidationUserVerify = Joi.object({
 
 const validate = (schema, obj, next) => {
   const { error } = schema.validate(obj)
+  console.log('🚀 ~ validate ~ error:', error)
 
   /* 
   if (error) {
@@ -68,7 +69,7 @@ const validate = (schema, obj, next) => {
   if (error) {
     return next({
       status: HttpCode.BAD_REQUEST,
-      message: 'Bad request [validate]',
+      message: `Error :  ${error.massege && 'Bad request [validate]'}`,
     })
   }
   next()

@@ -16,13 +16,14 @@ const get = async (req, res) => {
   const contacts = await getAll(userId, req.query)
   HttpSuccess('Success', HttpCode.OK, 'Contacts found'),
     res.status(HttpCode.OK).json({
-      contacts,
-      // status: 'Success',
-      // code: HttpCode.OK,
-      // message: 'Contacts found',
+      // contacts,
+      status: 'Success',
+      code: HttpCode.OK,
+      message: 'Contacts found',
       // data: {
-      //   contacts,
+      //   contacts: contacts.docs,
       // },
+      contacts: contacts.docs,
     })
 }
 
@@ -52,7 +53,8 @@ const create = async (req, res) => {
     status: 'Success create',
     code: HttpCode.CREATED,
     message: 'Contact created',
-    data: contact,
+    // data: contact,
+    contact,
   })
 }
 
