@@ -23,9 +23,6 @@ const get = async (req, res) => {
       status: 'Success',
       code: HttpCode.OK,
       message: 'Contacts found',
-      // data: {
-      //   contacts: contacts.docs,
-      // },
       contacts: contacts.docs,
     })
 }
