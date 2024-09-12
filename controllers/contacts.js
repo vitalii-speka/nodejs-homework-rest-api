@@ -13,7 +13,10 @@ const HttpSuccess = require('../helpers/HttpSuccess')
 
 const get = async (req, res) => {
   const userId = req.user?.id
+  console.log("🚀 ~ get ~ req.user:", req.user)
+  console.log('🚀 ~ get ~ userId:', userId)
   const contacts = await getAll(userId, req.query)
+  console.log('🚀 ~ get ~ contacts:', contacts)
   HttpSuccess('Success', HttpCode.OK, 'Contacts found'),
     res.status(HttpCode.OK).json({
       // contacts,
