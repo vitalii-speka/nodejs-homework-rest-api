@@ -20,10 +20,12 @@ const {
 
 const regist = async (req, res, next) => {
   const user = await findByEmail(req.body.email)
+
   if (user) {
     return res.status(HttpCode.CONFLICT).json({
       status: 'error register',
       code: HttpCode.CONFLICT,
+      // code: 444,
       message: 'Email is alredy use',
     })
   }
@@ -51,16 +53,14 @@ const regist = async (req, res, next) => {
       },
     })
   } catch (e) {
-    next(e)
+    console.log('🚀 ~ regist ~ e:', e.message)
+    next(e.message)
   }
 }
 
 const login = async (req, res, next) => {
   const { email, password } = req.body
-  console.log('🚀 ~ req.body:', req.body)
-  // console.log('🚀 ~ req.headers:', req.headers)
   const user = await findByEmail(email)
-  console.log('🚀 ~ user:', user)
 
   const isValidPassword = await user?.validPassword(password)
   // if (!user || !isValidPassword || !user.verify) {
